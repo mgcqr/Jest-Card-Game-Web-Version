@@ -9,10 +9,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
+    @Value("${cors.origin-pattern}")
+    private String OriginPattern;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOriginPatterns("http://127.0.0.1:5500")
+        registry.addMapping("/**").allowedOriginPatterns(OriginPattern)
                 .allowedMethods("GET", "HEAD", "POST","PUT", "DELETE", "OPTIONS")
                 .allowCredentials(true).maxAge(3600).allowedHeaders("*")
                 //暴露哪些原始请求头部信息
