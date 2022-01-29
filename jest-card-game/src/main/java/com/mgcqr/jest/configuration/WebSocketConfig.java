@@ -1,4 +1,4 @@
-package com.mgcqr.configuration;
+package com.mgcqr.jest.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

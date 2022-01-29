@@ -1,9 +1,9 @@
-package com.mgcqr.service.impl;
+package com.mgcqr.jest.service.impl;
 
-import com.mgcqr.mapper.UserUnionMapper;
-import com.mgcqr.entity.User;
-import com.mgcqr.mapper.single.UserMapper;
-import com.mgcqr.service.UserService;
+import com.mgcqr.jest.mapper.UserUnionMapper;
+import com.mgcqr.jest.entity.User;
+import com.mgcqr.jest.mapper.single.UserMapper;
+import com.mgcqr.jest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

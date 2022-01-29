@@ -1,4 +1,4 @@
-package com.mgcqr.websocket;
+package com.mgcqr.jest.websocket;
 
 import org.springframework.stereotype.Component;
 

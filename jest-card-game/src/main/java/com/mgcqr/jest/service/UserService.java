@@ -1,4 +1,4 @@
-package com.mgcqr.service;
+package com.mgcqr.jest.service;
 
 public interface UserService {
     void test();

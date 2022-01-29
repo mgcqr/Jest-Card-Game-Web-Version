@@ -1,7 +1,6 @@
-package com.mgcqr.configuration;
+package com.mgcqr.jest.configuration;
 
-import com.mgcqr.interceptor.LoginInterceptor;
-import org.springframework.context.annotation.Bean;
+import com.mgcqr.jest.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

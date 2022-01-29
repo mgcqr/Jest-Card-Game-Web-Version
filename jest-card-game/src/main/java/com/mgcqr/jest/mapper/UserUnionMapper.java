@@ -1,6 +1,6 @@
-package com.mgcqr.mapper;
+package com.mgcqr.jest.mapper;
 
-import com.mgcqr.entity.User;
+import com.mgcqr.jest.entity.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

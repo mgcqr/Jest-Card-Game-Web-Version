@@ -1,4 +1,4 @@
-package com.mgcqr.dto;
+package com.mgcqr.jest.dto;
 
 import lombok.Data;
 

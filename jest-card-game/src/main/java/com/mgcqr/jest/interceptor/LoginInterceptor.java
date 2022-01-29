@@ -1,4 +1,4 @@
-package com.mgcqr.interceptor;
+package com.mgcqr.jest.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 

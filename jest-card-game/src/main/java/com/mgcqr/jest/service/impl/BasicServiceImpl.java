@@ -1,6 +1,6 @@
-package com.mgcqr.service.impl;
+package com.mgcqr.jest.service.impl;
 
-import com.mgcqr.service.BasicService;
+import com.mgcqr.jest.service.BasicService;
 import org.springframework.stereotype.Service;
 
 @Service
