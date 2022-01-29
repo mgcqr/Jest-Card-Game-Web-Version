@@ -1,7 +1,9 @@
 package com.mgcqr.controller;
 
 import com.mgcqr.dto.LoginDto;
+import com.mgcqr.dto.LoginResDto;
 import com.mgcqr.service.BasicService;
+import com.mgcqr.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,9 @@ public class HomeController {
     @Autowired
     private BasicService basicService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/hello")
     public Map<String, Object> hello(){
         Map<String, Object> res = new HashMap<>();
@@ -29,19 +34,18 @@ public class HomeController {
     }
 
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody LoginDto loginDto,
-                                     HttpServletRequest request){
+    public LoginResDto login(@RequestBody LoginDto loginDto,
+                             HttpServletRequest request){
         System.out.println("logging in");
-        System.out.println(loginDto.getUserName());
-        System.out.println(loginDto.getPassWord());
+        System.out.println(loginDto);
 
-        Map<String, Object> res = new HashMap<>();
+        LoginResDto res = new LoginResDto();
         String token = null;
         if(loginDto.getPassWord().equals("123456")) {
             token = "FF-FF-FF";
             request.getSession().setAttribute("token", token);
         }
-        res.put("token", token);
+        res.setToken(token);
         return res;
     }
     @GetMapping("/sign-up")
@@ -49,6 +53,14 @@ public class HomeController {
         Map<String, Object> res = new HashMap<>();
         res.put("word", "hello-world");
         res.put("count", basicService.count());
+        return res;
+        //try
+    }
+    @GetMapping("/test")
+    public Map<String, Object> test(){
+        Map<String, Object> res = new HashMap<>();
+        res.put("message", "test");
+        userService.test();
         return res;
         //try
     }
