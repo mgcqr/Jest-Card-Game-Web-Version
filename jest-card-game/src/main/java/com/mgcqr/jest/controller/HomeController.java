@@ -3,7 +3,6 @@ package com.mgcqr.jest.controller;
 import com.mgcqr.jest.dto.LoginDto;
 import com.mgcqr.jest.dto.LoginResDto;
 import com.mgcqr.jest.service.BasicService;
-import com.mgcqr.jest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +18,6 @@ public class HomeController {
     @Autowired
     private BasicService basicService;
 
-    @Autowired
-    private UserService userService;
 
     @GetMapping("/hello")
     public Map<String, Object> hello(){
@@ -54,12 +51,5 @@ public class HomeController {
         return res;
         //try
     }
-    @GetMapping("/test")
-    public Map<String, Object> test(){
-        Map<String, Object> res = new HashMap<>();
-        res.put("message", "test");
-        userService.test();
-        return res;
-        //try
-    }
+
 }
