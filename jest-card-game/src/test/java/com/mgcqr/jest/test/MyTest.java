@@ -2,7 +2,7 @@ package com.mgcqr.jest.test;
 
 import com.mgcqr.jest.entity.User;
 import com.mgcqr.jest.mapper.UserUnionMapper;
-import com.mgcqr.jest.mapper.single.UserMapper;
+import com.mgcqr.jest.mapper.UserMapper;
 import com.mgcqr.jest.service.BasicService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
