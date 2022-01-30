@@ -72,9 +72,21 @@ public class MyTest {
     @Test
     public void testCache(){
 
-        redisCacheService.add("key", 123);
+//        HashMap<Integer, String> map = new HashMap<>();
+//        map.put(1,"a");
+//        map.put(2, "b");
+//        map.put(3,"c");
+//
+        redisCacheService.setHashCache("500", "2", "3");
 
-        System.out.println(redisCacheService.getObject("key", Integer.class));
+        Integer val = redisCacheService.getHashCache(1, "2", Integer.class);
+
+        System.out.println(val);
+
+
+
+//        redisCacheService.set(123, 345);
+
 
     }
 

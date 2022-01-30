@@ -34,7 +34,7 @@ public class RedisCacheService {
      * @param value
      * @return
      */
-    public <K, V> void add(K key, V value) {
+    public <K, V> void set(K key, V value) {
         try {
             if (value != null) {
                 redisTemplate
@@ -54,7 +54,7 @@ public class RedisCacheService {
      * @param value
      * @return
      */
-    public <K, V> void add(K key, V value, long timeout, TimeUnit unit) {
+    public <K, V> void set(K key, V value, long timeout, TimeUnit unit) {
         try {
             if (value != null) {
                 redisTemplate
@@ -69,35 +69,56 @@ public class RedisCacheService {
 
     /**
      * 写入 hash-set,已经是key-value的键值，不能再写入为hash-set
+     * redisTemplate.opsForHash().put(key, subkey, value)中
+     * subkey和value必须是String 这里用Jackson对value做序列化
      *
      * @param key    must not be {@literal null}.
      * @param subKey must not be {@literal null}.
      * @param value  写入的值
      */
-    public <K, SK, V> void addHashCache(K key, SK subKey, V value) {
-        redisTemplate.opsForHash().put(DEFAULT_KEY_PREFIX + key, subKey, value);
+    public <K, V> void setHashCache(K key, String subKey, V value) {
+        try {
+            redisTemplate.opsForHash().put(DEFAULT_KEY_PREFIX + key, subKey, JsonUtil.toJsonString(value));
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+            throw new RuntimeException("数据缓存至redis失败");
+        }
     }
 
     /**
      * 写入 hash-set,并设置过期时间
+     * redisTemplate.opsForHash().put(key, subkey, value)中
+     * subkey和value必须是String 这里用Jackson对value做序列化
      *
      * @param key    must not be {@literal null}.
      * @param subKey must not be {@literal null}.
      * @param value  写入的值
      */
-    public <K, SK, V> void addHashCache(K key, SK subKey, V value, long timeout, TimeUnit unit) {
-        redisTemplate.opsForHash().put(DEFAULT_KEY_PREFIX + key, subKey, value);
-        redisTemplate.expire(DEFAULT_KEY_PREFIX + key, timeout, unit);
+    public <K, V> void setHashCache(K key, String subKey, V value, long timeout, TimeUnit unit) {
+        try {
+            redisTemplate.opsForHash().put(DEFAULT_KEY_PREFIX + key, subKey, JsonUtil.toJsonString(value));
+            redisTemplate.expire(DEFAULT_KEY_PREFIX + key, timeout, unit);
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+            throw new RuntimeException("数据缓存至redis失败");
+        }
     }
 
     /**
      * 获取 hash-setvalue
+     * subkey必须是String
      *
      * @param key    must not be {@literal null}.
      * @param subKey must not be {@literal null}.
      */
-    public <K, SK> Object getHashCache(K key, SK subKey) {
-        return  redisTemplate.opsForHash().get(DEFAULT_KEY_PREFIX + key, subKey);
+    public <K, V> V getHashCache(K key, String subKey, Class<V> valueType) {
+        String jsonStr = (String) redisTemplate.opsForHash().get(DEFAULT_KEY_PREFIX + key, subKey);
+        try {
+            return JsonUtil.toObject(jsonStr, valueType);
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+            throw new RuntimeException("从redis缓存中获取缓存数据失败");
+        }
     }
 
 
