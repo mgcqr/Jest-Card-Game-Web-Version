@@ -28,28 +28,5 @@ public class HomeController {
         //try
     }
 
-    @PostMapping("/login")
-    public LoginResDto login(@RequestBody LoginDto loginDto,
-                             HttpServletRequest request){
-        System.out.println("logging in");
-        System.out.println(loginDto);
-
-        LoginResDto res = new LoginResDto();
-        String token = null;
-        if(loginDto.getPassWord().equals("123456")) {
-            token = "FF-FF-FF";
-            request.getSession().setAttribute("token", token);
-        }
-        res.setToken(token);
-        return res;
-    }
-    @GetMapping("/sign-up")
-    public Map<String, Object> signUp(){
-        Map<String, Object> res = new HashMap<>();
-        res.put("word", "hello-world");
-        res.put("count", basicService.count());
-        return res;
-        //try
-    }
 
 }

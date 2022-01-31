@@ -1,4 +1,4 @@
-package com.mgcqr.jest.service;
+package com.mgcqr.jest.repository;
 
 import com.mgcqr.jest.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +16,13 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
-public class RedisCacheService {
+public class RedisCacheRepository {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
     private final String DEFAULT_KEY_PREFIX = "";
-    private final int EXPIRE_TIME = 1;
-    private final TimeUnit EXPIRE_TIME_TYPE = TimeUnit.DAYS;
+    private final int EXPIRE_TIME = 15;
+    private final TimeUnit EXPIRE_TIME_TYPE = TimeUnit.MINUTES;
 
 
 
@@ -45,6 +45,10 @@ public class RedisCacheService {
             log.error(e.getMessage(), e);
             throw new RuntimeException("数据缓存至redis失败");
         }
+    }
+
+    public <K, V> void setWithDefaultExpireTime(K key, V value){
+        set(key, value, EXPIRE_TIME, EXPIRE_TIME_TYPE);
     }
 
     /**
@@ -113,6 +117,9 @@ public class RedisCacheService {
      */
     public <K, V> V getHashCache(K key, String subKey, Class<V> valueType) {
         String jsonStr = (String) redisTemplate.opsForHash().get(DEFAULT_KEY_PREFIX + key, subKey);
+        if(jsonStr == null) {
+            return null;
+        }
         try {
             return JsonUtil.toObject(jsonStr, valueType);
         }catch (Exception e){

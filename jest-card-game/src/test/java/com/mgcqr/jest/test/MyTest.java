@@ -1,21 +1,22 @@
 package com.mgcqr.jest.test;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.mgcqr.jest.dto.LoginDto;
 import com.mgcqr.jest.entity.User;
 import com.mgcqr.jest.mapper.UserUnionMapper;
 import com.mgcqr.jest.mapper.UserMapper;
 import com.mgcqr.jest.service.BasicService;
-import com.mgcqr.jest.service.RedisCacheService;
+import com.mgcqr.jest.repository.RedisCacheRepository;
 import com.mgcqr.jest.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -29,7 +30,7 @@ public class MyTest {
     @Autowired
     private BasicService basicService;
     @Autowired
-    private RedisCacheService redisCacheService;
+    private RedisCacheRepository redisCacheRepository;
 
     @Test
     public void test(){
@@ -70,16 +71,14 @@ public class MyTest {
     }
 
     @Test
-    public void testCache(){
+    public void testRedis(){
 
-//        HashMap<Integer, String> map = new HashMap<>();
-//        map.put(1,"a");
-//        map.put(2, "b");
-//        map.put(3,"c");
-//
-        redisCacheService.setHashCache("500", "2", "3");
 
-        Integer val = redisCacheService.getHashCache(1, "2", Integer.class);
+        redisCacheRepository.setHashCache("500", "1", "3");
+        redisCacheRepository.setHashCache("500", "2", "4");
+        redisCacheRepository.setHashCache("500", "2", "4");
+
+        Integer val = redisCacheRepository.getHashCache(1, "2", Integer.class);
 
         System.out.println(val);
 
@@ -87,6 +86,43 @@ public class MyTest {
 
 //        redisCacheService.set(123, 345);
 
+
+    }
+
+    @Test
+    public void testBeanUtil(){
+        LoginDto dto = new LoginDto();
+        dto.setUserName("name");
+        dto.setPassWord("psw");
+
+        User u = new User();
+        BeanUtils.copyProperties(dto, u);
+        System.out.println(u.toString());
+
+
+    }
+
+    @Test
+    public void testMybatis(){
+        QueryWrapper<User> wrapper;
+        Map<String, Object> param;
+        User u;
+
+        wrapper = new QueryWrapper<>();
+//        param = new HashMap<>();
+//        param.put("user_name", "mgcqr");
+//        param.put("pass_word", "12345");
+        wrapper.eq("user_name","mgcqr")
+                .eq("pass_word", "12345");
+        u = userMapper.selectOne(wrapper);
+        System.out.println(u);
+
+//        wrapper = new QueryWrapper<>();
+//        param = new HashMap<>();
+//        param.put("name", "mgcqr");
+//        param.put("pass_word", "123456");
+//        wrapper.allEq(param);
+//        u = userMapper.selectOne(wrapper);
 
     }
 
