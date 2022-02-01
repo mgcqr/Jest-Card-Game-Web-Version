@@ -4,7 +4,6 @@ import com.mgcqr.jest.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -222,6 +221,13 @@ public class RedisCacheRepository {
      */
     public Boolean expire(String key, long timeout, TimeUnit unit) {
         return redisTemplate.expire(key, timeout, unit);
+    }
+
+    /**
+     * 设置默认过期时间
+     */
+    public Boolean expireDefault(String key){
+        return expire(key, EXPIRE_TIME, EXPIRE_TIME_TYPE);
     }
 
     /**

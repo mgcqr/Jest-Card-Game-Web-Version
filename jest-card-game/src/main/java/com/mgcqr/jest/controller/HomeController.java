@@ -1,12 +1,10 @@
 package com.mgcqr.jest.controller;
 
-import com.mgcqr.jest.dto.LoginDto;
-import com.mgcqr.jest.dto.LoginResDto;
 import com.mgcqr.jest.service.BasicService;
+import com.mgcqr.jest.interceptor.UserContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +21,7 @@ public class HomeController {
     public Map<String, Object> hello(){
         Map<String, Object> res = new HashMap<>();
         res.put("word", "hello-world");
-        res.put("count", basicService.count());
+        res.put("user", UserContextHolder.get());
         return res;
         //try
     }
