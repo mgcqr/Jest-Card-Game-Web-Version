@@ -49,16 +49,14 @@ public class HumanPlayer extends Joueur {
                 System.out.println();
             }
 
+
+            System.out.println("To choose a card, input player ID :");
             int playerID = 0;
-            boolean faceUp = false;
-
-
-            boolean condi = true;
-            while(condi) {
+            while(true) {
                 Object o = MailBox.consume();
                 if(o instanceof Integer) {
                     playerID = (int)o;
-                    condi = false;
+                    break;
                 }
 
             }
@@ -66,12 +64,13 @@ public class HumanPlayer extends Joueur {
 
             Table.getInstance().setCurrentStep(Step.take_card_choose_card);
 
-            condi = true;
-            while(condi) {
+            System.out.print("Choose a card (true for the face-up, false for the face-down):");
+            boolean faceUp = false;
+            while(true) {
                 Object o = MailBox.consume();
                 if(o instanceof Boolean) {
                     faceUp = (boolean)o;
-                    condi = false;
+                    break;
                 }
 
             }

@@ -56,11 +56,8 @@ public class Table extends Observable implements Runnable {
             e.printStackTrace();
         }
 
-        //wait for input
-        while (MailBox.consume() == null) {
-        }
-        //MailBox.setTrue();
 
+        this.setParametre(3, 2, new String[] {"wuyufei"}, GameMode.Original);
 
         initialiser();
 
@@ -268,10 +265,15 @@ public class Table extends Observable implements Runnable {
 
     }
 
+    /**
+     * 直接以命令行模式启动
+     * @param args
+     */
     public static void main(String args[]) {
         Table t = Table.getInstance();
         t.play();
-//		
+        ConsoleInput consoleInput = new ConsoleInput();
+        consoleInput.start();
 
     }
 
