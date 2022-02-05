@@ -1,0 +1,19 @@
+SUIT	VALUE	c_type	c_suit	c_value
+Joker	0	plus	null	0
+Spade	1	plus	Club	0
+Spade	2	plus	null	3
+Spade	3	plus	null	2
+Spade	4	moin	Club	0
+Club	1	plus	Spade	0
+Club	2	moin	Heart	0
+Club	3	plus	Heart	0
+Club	4	moin	Spade	0
+Diamond	1	plus	null	4
+Diamond	2	plus	Diamond	0
+Diamond	3	moin	Diamond	0
+Diamond	4	plus_sans_joker	null	0
+Heart	1	joker	null	0
+Heart	2	joker	null	0
+Heart	3	joker	null	0
+Heart	4	joker	null	0
+
