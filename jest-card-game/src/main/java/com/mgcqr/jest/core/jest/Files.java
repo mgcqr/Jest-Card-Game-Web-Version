@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class Files {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
         //File f = new File("classpath:cards.txt");
 

@@ -13,7 +13,6 @@ public class StartInterfaceController {
     public StartInterfaceController(Table table,JButton bt ,StartInterface inter) {
         bt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
                 Object[] obj = StartInterface.getParametre();
                 table.setParametre((int)obj[0], (int)obj[1], (String[])obj[2], (GameMode)obj[3]);
                 inter.setInterfaceVisible(false);

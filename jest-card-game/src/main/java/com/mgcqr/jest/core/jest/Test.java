@@ -5,7 +5,6 @@ import java.util.Random;
 public class Test {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
 //		Scanner scan = new Scanner("Joker	0	plus	null	0");
 //		while(scan.hasNext()) {
