@@ -1,10 +1,10 @@
 package com.mgcqr.jest.mapper;
 
-import com.mgcqr.jest.entity.User;
+import com.mgcqr.jest.entity.UserEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserUnionMapper {
-    User findById(@Param("id") Integer id);
+    UserEntity findById(@Param("id") Integer id);
 }

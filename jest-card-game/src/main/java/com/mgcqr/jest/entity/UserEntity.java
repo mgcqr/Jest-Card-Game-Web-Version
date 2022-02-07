@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @TableName("user")
-public class User implements Serializable {
+public class UserEntity implements Serializable {
     private String id;
     //@TableField("name")
     private String userName;

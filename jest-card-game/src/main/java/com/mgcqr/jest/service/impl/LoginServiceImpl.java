@@ -1,11 +1,12 @@
 package com.mgcqr.jest.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.mgcqr.jest.dto.LoginDto;
 import com.mgcqr.jest.dto.LoginResDto;
 import com.mgcqr.jest.dto.ResponseWrapper;
-import com.mgcqr.jest.entity.User;
+import com.mgcqr.jest.entity.UserEntity;
 import com.mgcqr.jest.mapper.UserMapper;
+import com.mgcqr.jest.model.CurrentUserInfo;
 import com.mgcqr.jest.repository.RedisCacheRepository;
 import com.mgcqr.jest.service.LoginService;
 import com.mgcqr.jest.util.AesEncryptUtil;
@@ -13,6 +14,7 @@ import com.mgcqr.jest.util.Base64Util;
 import com.mgcqr.jest.util.KeyUtil;
 import com.mgcqr.jest.util.RSAUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,20 +59,20 @@ public class LoginServiceImpl implements LoginService {
 
         String pswSave = passWordTransform(loginDto.getPassWord());
 
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_name", guestName);
-        User user = userMapper.selectOne(wrapper);
-        if(user == null){
+        LambdaQueryWrapper<UserEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserEntity::getUserName, guestName);
+        UserEntity userEntity = userMapper.selectOne(wrapper);
+        if(userEntity == null){
             //用户不存在
             return new ResponseWrapper<>("No such user.", null);
         }
-        if (! pswSave.equals(user.getPassWord())){
+        if (! pswSave.equals(userEntity.getPassWord())){
             //密码不正确
             return new ResponseWrapper<>("Wrong pass word.", null);
         }
 
         String token = KeyUtil.getKey();
-        redis.setWithDefaultExpireTime(token, user);
+        writeUserCache(token, userEntity);
         LoginResDto dto = new LoginResDto();
         dto.setToken(token);
         return new ResponseWrapper<>(dto);
@@ -80,12 +82,12 @@ public class LoginServiceImpl implements LoginService {
     public ResponseWrapper<LoginResDto> signUp(LoginDto loginDto){
         String guestName = loginDto.getUserName();
 
-        User user = new User();
-        user.setId(KeyUtil.getKey());
-        user.setUserName(guestName);
-        user.setPassWord(passWordTransform(loginDto.getPassWord()));
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(KeyUtil.getKey());
+        userEntity.setUserName(guestName);
+        userEntity.setPassWord(passWordTransform(loginDto.getPassWord()));
         try {
-            userMapper.insert(user);
+            userMapper.insert(userEntity);
         }catch (Exception exception){
             //log.error(exception.getMessage(), exception);
             //用户已存在
@@ -93,10 +95,17 @@ public class LoginServiceImpl implements LoginService {
         }
 
         String token = KeyUtil.getKey();
-        redis.setWithDefaultExpireTime(token, user);
+        writeUserCache(token, userEntity);
         LoginResDto dto = new LoginResDto();
         dto.setToken(token);
         return new ResponseWrapper<>(dto);
+    }
+
+
+    private void writeUserCache(String token, UserEntity userEntity){
+        CurrentUserInfo currentUserInfo = new CurrentUserInfo();
+        BeanUtils.copyProperties(userEntity, currentUserInfo);
+        redis.setWithDefaultExpireTime(token, currentUserInfo);
     }
 
     /**

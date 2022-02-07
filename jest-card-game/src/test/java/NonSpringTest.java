@@ -1,4 +1,5 @@
-import com.mgcqr.jest.entity.User;
+import com.mgcqr.jest.entity.UserEntity;
+import com.mgcqr.jest.enumeration.GameState;
 import com.mgcqr.jest.util.Base64Util;
 import com.mgcqr.jest.util.KeyUtil;
 import com.mgcqr.jest.util.RSAUtil;
@@ -13,7 +14,7 @@ public class NonSpringTest {
     @Test
     public void test(){
 
-        System.out.println(KeyUtil.getKey());
+        System.out.println(GameState.Running.toString());
     }
 
     @Test
@@ -59,7 +60,7 @@ public class NonSpringTest {
 
     @Test
     public void testClass(){
-        User u = new User();
+        UserEntity u = new UserEntity();
         u.setUserName("tom");
         u.setId("123");
         u.setPassWord("qwer");
