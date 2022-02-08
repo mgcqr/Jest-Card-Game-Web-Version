@@ -41,20 +41,20 @@ public class MyTest {
     @Test
     public void test(){
 
-//        for (int i = 0; i < 5; i++){
-//            waitingHallService.newGame();
-//            try {
-//                Thread.sleep(1000);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-        PageRequestDto dto = new PageRequestDto();
-        dto.setCurrent(1);
-        dto.setSize(5);
 
-        waitingHallService.getWaitingGameListPage(dto);
+        UserEntity user = new UserEntity();
+        user.setId("f7757c347a584c32b47434d6b00684e7");
+        user.setUserName("mgcqr_gggg");
 
+        LambdaQueryWrapper<UserEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserEntity::getUserName, user.getUserName());
+
+        userMapper.update(user, wrapper);
+
+//        userMapper.updateById(user);
+
+
+        System.out.println("test");
 
 
     }

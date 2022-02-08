@@ -5,14 +5,17 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-@TableName("user")
-public class UserEntity implements Serializable {
+@TableName("game_user_relation")
+public class GameUserRelEntity {
     @TableId
     private String id;
-    //@TableField("name")
-    private String userName;
-    private String passWord;
+
+    @TableField("game_id")
+    private String gameId;
+
+    @TableField("user_id")
+    private String userId;
+
+    private Integer score;
 }

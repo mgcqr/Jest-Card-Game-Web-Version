@@ -1,9 +1,6 @@
 package com.mgcqr.jest.controller;
 
-import com.mgcqr.jest.dto.NewGameResDto;
-import com.mgcqr.jest.dto.PageRequestDto;
-import com.mgcqr.jest.dto.PageResDto;
-import com.mgcqr.jest.dto.ResponseWrapper;
+import com.mgcqr.jest.dto.*;
 import com.mgcqr.jest.entity.GameEntity;
 import com.mgcqr.jest.service.WaitingHallService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +26,24 @@ public class WaitingHallController {
         dto.setSize(size);
         dto.setCurrent(current);
         return new ResponseWrapper<>(waitingHallService.getWaitingGameListPage(dto));
+    }
+
+    @PutMapping("/join_game")
+    public ResponseWrapper<String> joinGame(@RequestBody IdRequestDto dto){
+        if(waitingHallService.joinGame(dto)){
+            return new ResponseWrapper<>("join success");
+        }else {
+            return new ResponseWrapper<>( "join error");
+        }
+    }
+
+    @DeleteMapping("/quit_game")
+    public ResponseWrapper<String> quitGame(@RequestBody IdRequestDto dto){
+        if(waitingHallService.quitGame(dto)){
+            return new ResponseWrapper<>("quit success");
+        }else {
+            return new ResponseWrapper<>( "quit error: game started");
+        }
     }
 
 }

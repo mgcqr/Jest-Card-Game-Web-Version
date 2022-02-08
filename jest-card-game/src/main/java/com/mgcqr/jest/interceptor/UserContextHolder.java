@@ -10,6 +10,14 @@ public class UserContextHolder {
         return USER_INFO_THREAD_LOCAL.get();
     }
 
+    public static String getId(){
+        return get().getId();
+    }
+
+    public static String getUserName(){
+        return get().getUserName();
+    }
+
     protected static void set(CurrentUserInfo user) {
         USER_INFO_THREAD_LOCAL.set(user);
     }
