@@ -13,9 +13,9 @@ public class WaitingHallController {
     @Autowired
     private WaitingHallService waitingHallService;
 
-    @PostMapping("/new-game")
-    public ResponseWrapper<NewGameResDto> newGame(){
-        NewGameResDto dto = waitingHallService.newGame();
+    @PostMapping("/new-game/{description}")
+    public ResponseWrapper<NewGameResDto> newGame(@PathVariable("description") String gameDescription){
+        NewGameResDto dto = waitingHallService.newGame(gameDescription);
         return new ResponseWrapper<>(dto);
     }
 

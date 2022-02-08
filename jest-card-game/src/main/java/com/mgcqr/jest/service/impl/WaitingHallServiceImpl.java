@@ -33,13 +33,14 @@ public class WaitingHallServiceImpl implements WaitingHallService {
     private GameUserRelMapper gameUserRelMapper;
 
     @Override
-    public NewGameResDto newGame(){
+    public NewGameResDto newGame(String gameDescription){
         NewGameResDto res = new NewGameResDto();
         String gameId = KeyUtil.getKey();
         res.setGameId(gameId);
 
         GameEntity entity = new GameEntity();
         entity.setId(gameId);
+        entity.setDescription(gameDescription);
         entity.setState(GameState.Waiting);
         entity.setStartTime(LocalDateTime.now());
         gameMapper.insert(entity);

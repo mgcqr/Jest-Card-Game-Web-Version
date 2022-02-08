@@ -8,8 +8,7 @@ import com.mgcqr.jest.entity.GameEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface WaitingHallService {
-    NewGameResDto newGame();
-
+    NewGameResDto newGame(String gameDescription);
 
     PageResDto<GameEntity> getWaitingGameListPage(PageRequestDto requestDto);
 

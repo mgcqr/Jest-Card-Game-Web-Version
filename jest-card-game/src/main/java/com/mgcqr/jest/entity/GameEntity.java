@@ -14,6 +14,7 @@ public class GameEntity {
     @TableId
     private String id;
     private GameState state;
+    private String description;
     private LocalDateTime startTime;
     private LocalDateTime finishTime;
 }
