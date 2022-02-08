@@ -1,11 +1,9 @@
 package com.mgcqr.jest.controller;
 
-import com.mgcqr.jest.service.BasicService;
-import com.mgcqr.jest.interceptor.UserContextHolder;
+import com.mgcqr.jest.service.impl.BasicServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -14,16 +12,19 @@ import java.util.Map;
 public class HomeController {
 
     @Autowired
-    private BasicService basicService;
+    private BasicServiceImpl basicService;
 
 
-    @GetMapping("/hello")
-    public Map<String, Object> hello(){
-        Map<String, Object> res = new HashMap<>();
-        res.put("word", "hello-world");
-        res.put("user", UserContextHolder.get());
+    @GetMapping("/debug")
+    public String hello(){
+        String res = "OK";
+        try {
+            basicService.debug();
+        }catch (Exception e){
+            res = "error";
+        }
+        System.out.println("debug");
         return res;
-        //try
     }
 
 

@@ -9,7 +9,6 @@ import com.mgcqr.jest.enumeration.GameState;
 import com.mgcqr.jest.mapper.GameMapper;
 import com.mgcqr.jest.mapper.UserUnionMapper;
 import com.mgcqr.jest.mapper.UserMapper;
-import com.mgcqr.jest.service.BasicService;
 import com.mgcqr.jest.repository.RedisCacheRepository;
 import com.mgcqr.jest.service.WaitingHallService;
 import com.mgcqr.jest.util.JsonUtil;
@@ -32,8 +31,6 @@ public class MyTest {
     @Autowired
     private UserUnionMapper userUnionMapper;
 
-    @Autowired
-    private BasicService basicService;
     @Autowired
     private RedisCacheRepository redisCacheRepository;
     @Autowired

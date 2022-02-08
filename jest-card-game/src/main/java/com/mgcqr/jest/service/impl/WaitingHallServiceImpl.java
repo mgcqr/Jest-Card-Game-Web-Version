@@ -14,6 +14,7 @@ import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -54,7 +55,13 @@ public class WaitingHallServiceImpl implements WaitingHallService {
 
 
     //TODO join game
+    @Transactional
+    public boolean joinGame(){
 
+
+
+        return true;
+    }
 
     //TODO leave game
 
