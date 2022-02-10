@@ -80,6 +80,6 @@ public class EasyAI implements Movement {
         boolean faceUp = r.nextBoolean();
         Card c = js[playerID].cardOut(faceUp);
         j.cardIn(c, CardAim.jest);
-        Table.hasBeenTakenOffer = playerID;
+        table.setHasBeenTakenOffer(playerID);
     }
 }

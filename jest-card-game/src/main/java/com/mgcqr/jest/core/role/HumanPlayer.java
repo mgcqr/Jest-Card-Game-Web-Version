@@ -82,7 +82,7 @@ public class HumanPlayer extends Joueur {
 
             //movement.takeCard(this);
 
-            Table.hasTakenOffer += (1<< this.getID());//将代表自己的位置1 表示自己已经进行过takecard环节
+            table.setHasTakenOffer(table.getHasTakenOffer() + (1<< this.getID()));//将代表自己的位置1 表示自己已经进行过takecard环节
 
             System.out.println();
 

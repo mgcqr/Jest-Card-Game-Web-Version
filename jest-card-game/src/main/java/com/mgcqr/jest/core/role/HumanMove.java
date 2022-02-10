@@ -27,8 +27,7 @@ public class HumanMove implements Movement {
         Card c = js[playerID].cardOut(faceUp);
         j.cardIn(c, CardAim.jest);
 
-        Table.hasBeenTakenOffer = playerID;
-
+        table.setHasBeenTakenOffer(playerID);
 
     }
 }
