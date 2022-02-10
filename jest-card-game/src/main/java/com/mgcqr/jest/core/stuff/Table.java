@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author Yufei Wu
  */
-public class Table extends Observable implements Runnable {
+public class Table implements Runnable {
 
     private static Table instance = null;
     private Thread t;
@@ -96,8 +96,8 @@ public class Table extends Observable implements Runnable {
 
     public void setCurrentStep(Step step) {
         currentStep = step;
-        setChanged();
-        notifyObservers(currentStep);
+//        setChanged();
+//        notifyObservers(currentStep);
 
     }
 

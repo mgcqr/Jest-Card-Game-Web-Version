@@ -29,9 +29,4 @@ public class AsyncConfig implements AsyncConfigurer {
         taskExecutor.initialize();
         return taskExecutor;
     }
-
-    @Override
-    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return null;
-    }
 }
