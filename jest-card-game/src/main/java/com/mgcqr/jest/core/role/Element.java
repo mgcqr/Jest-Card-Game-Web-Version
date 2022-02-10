@@ -3,5 +3,5 @@ package com.mgcqr.jest.core.role;
 public interface Element {
     void accept(Visitor visitor);
 }
-//·ÃÎÊÕßÄ£Ê½
-//¶¨ÒåÒ»×é¿ÉÒÔ±»·ÃÎÊÕß·ÃÎÊµÄÔªËØ ÕâĞ©ÔªËØÊµÏÖElement½Ó¿Ú  ÕâÀïÖ»ÓĞJoueur
+//è®¿é—®è€…æ¨¡å¼
+//å®šä¹‰ä¸€ç»„å¯ä»¥è¢«è®¿é—®è€…è®¿é—®çš„å…ƒç´  è¿™äº›å…ƒç´ å®ç°Elementæ¥å£  è¿™é‡Œåªæœ‰Joueur
