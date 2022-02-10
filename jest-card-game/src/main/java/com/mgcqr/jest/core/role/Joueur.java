@@ -40,7 +40,7 @@ public abstract class Joueur implements Element {
      *
      * @param label Only accept "make_offer" and c
      */
-    public abstract void jouer( Operation label);
+    public abstract void jouer( Operation label, Table table);
 
 
     /**

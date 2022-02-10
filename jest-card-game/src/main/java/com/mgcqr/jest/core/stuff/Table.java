@@ -13,7 +13,6 @@ import java.util.Scanner;
  */
 public class Table implements Runnable {
 
-    private static Table instance = null;
     private Thread t;
 
     private Deck deck;
@@ -39,13 +38,6 @@ public class Table implements Runnable {
 
 
     private Table() {
-    }
-
-    public static Table getInstance() {
-        if (instance == null) {
-            instance = new Table();
-        }
-        return instance;
     }
 
 
@@ -178,7 +170,7 @@ public class Table implements Runnable {
         for (int i = 0; i < nbJoueur; i++) {
             currentPlayer = i;
             setCurrentStep(Step.make_offer);
-            joueurs[i].jouer(Operation.make_offer);
+            joueurs[i].jouer(Operation.make_offer, this);
         }
 
 
@@ -204,7 +196,7 @@ public class Table implements Runnable {
             while (((hasTakenOffer >> cardTaker) & 1) == 0) {
                 currentPlayer = cardTaker;
                 setCurrentStep(Step.take_card_choose_ID);
-                joueurs[cardTaker].jouer(Operation.take_card);
+                joueurs[cardTaker].jouer(Operation.take_card, this);
                 cardTaker = hasBeenTakenOffer;
             }
 
@@ -270,7 +262,7 @@ public class Table implements Runnable {
      * @param args
      */
     public static void main(String args[]) {
-        Table t = Table.getInstance();
+        Table t = new Table();
         t.play();
         ConsoleInput consoleInput = new ConsoleInput();
         consoleInput.start();

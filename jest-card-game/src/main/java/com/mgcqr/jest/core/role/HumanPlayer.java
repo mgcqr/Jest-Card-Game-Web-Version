@@ -9,9 +9,9 @@ public class HumanPlayer extends Joueur {
         super(nom,mov);
     }
 
-    public void jouer( Operation label) {//两种游戏步骤分别调用movement的方法
+    public void jouer( Operation label, Table table) {//两种游戏步骤分别调用movement的方法
         if(label == Operation.make_offer) {
-            System.out.println(Table.getInstance().getCurrentPlayer().getName()+" (ID"+Table.getInstance().getCurrentPlayer().getID()+ ") Making offer");
+            System.out.println(table.getCurrentPlayer().getName()+" (ID"+table.getCurrentPlayer().getID()+ ") Making offer");
             this.getOffer()[0].show();
             this.getOffer()[1].show();
             System.out.println();
@@ -62,7 +62,7 @@ public class HumanPlayer extends Joueur {
             }
             System.out.println(playerID);
 
-            Table.getInstance().setCurrentStep(Step.take_card_choose_card);
+            table.setCurrentStep(Step.take_card_choose_card);
 
             System.out.print("Choose a card (true for the face-up, false for the face-down):");
             boolean faceUp = false;

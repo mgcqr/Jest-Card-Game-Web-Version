@@ -15,7 +15,7 @@ public class AI extends Joueur {
 
     }
 
-    public void jouer( Operation label) {//两种游戏步骤分别调用movement的方法
+    public void jouer( Operation label, Table table) {//两种游戏步骤分别调用movement的方法
 
         if(label == Operation.make_offer) {
             movement.makeOffer(this,-1);
