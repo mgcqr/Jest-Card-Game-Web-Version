@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class ConsoleInput implements Runnable {
     private Thread t = null;
     public void run() {
-        Scanner scan = Table.scan;
+        Scanner scan = new Scanner(System.in);
         String str;
         while(true) {
             if(scan.hasNext()) {

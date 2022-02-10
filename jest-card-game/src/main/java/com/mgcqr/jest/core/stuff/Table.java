@@ -2,6 +2,7 @@ package com.mgcqr.jest.core.stuff;
 
 import com.mgcqr.jest.core.enumeration.*;
 import com.mgcqr.jest.core.role.*;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -27,9 +28,8 @@ public class Table implements Runnable {
 
     final public static int nbCartDefault = 17;
 
-    public static Scanner scan = new Scanner(System.in);
-    ;
-    public static int nbJoueur = 0;
+    @Getter
+    private int nbJoueur = 0;
     public static int nbAI;
     public static GameMode gameMode;
     public static int hasTakenOffer = 0;//used as a list of boolean,  1 for true
@@ -94,7 +94,7 @@ public class Table implements Runnable {
     }
 
     public void setParametre(int nbPlayer, int nbAI, String[] names, GameMode gm) {
-        Table.nbJoueur = nbPlayer;
+        nbJoueur = nbPlayer;
         Table.nbAI = nbAI;
         this.noms = names;
         Table.gameMode = gm;

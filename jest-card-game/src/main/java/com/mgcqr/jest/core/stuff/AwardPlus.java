@@ -14,7 +14,7 @@ public class AwardPlus implements Awarder {
         if(suit == null && value == 0 ) {//highest score (best jest)  逐个算分遍历找最大值
             int tempID = -1;
             int temp = -100;
-            for(int i = 0; i < Table.nbJoueur; i++) {
+            for(int i = 0; i < table.getNbJoueur(); i++) {
                 js[i].accept(new Calculator());
 
                 if(js[i].getScore() > temp) {
@@ -33,7 +33,7 @@ public class AwardPlus implements Awarder {
             int tempID = -1;
             int temp = 0;
             Suit tempSuit = Suit.Heart;
-            for(int i = 0; i < Table.nbJoueur; i++) {//player i
+            for(int i = 0; i < table.getNbJoueur(); i++) {//player i
                 int counter = 0;
                 Suit strongSuit = Suit.Heart;
                 int[] values = js[i].getJestValue();
@@ -62,7 +62,7 @@ public class AwardPlus implements Awarder {
         else {//highest value of card of certain suit (Highest)  遍历找最大值  同一花色不会有相同value 所有比较不必取等号
             int tempID = -1;
             int temp = 0;
-            for(int i = 0; i < Table.nbJoueur; i++) {//player i
+            for(int i = 0; i < table.getNbJoueur(); i++) {//player i
                 int high = 0;
                 int[] values = js[i].getJestValue();
                 for(int j = 0; j < js[i].getJest().length; j++) {//card j

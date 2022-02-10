@@ -14,7 +14,7 @@ public class AwardPlusSansJoker implements Awarder{
         int jokerIndex = a.award(c, table);
 
 
-        for(int i = 0; i < Table.nbJoueur; i++) {
+        for(int i = 0; i < table.getNbJoueur(); i++) {
             if(i == jokerIndex) continue;//skip the player who has joker  跳过有joker的人  其他跟best jest完全一样
 
             js[i].accept(new Calculator());

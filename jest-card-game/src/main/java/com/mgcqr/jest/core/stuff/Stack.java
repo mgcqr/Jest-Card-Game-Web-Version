@@ -26,7 +26,7 @@ public class Stack extends Deck {
     public void collectCard() {//收集offer中剩下的牌  *并改为正面向下*
         Joueur[] joueurs = table.getJoueurs();
         Card c;
-        for(int i = 0; i<Table.nbJoueur;i++) {
+        for(int i = 0; i<table.getNbJoueur();i++) {
             c = joueurs[i].cardOut();
             c.setFaceDown();
             cardIn(c);

@@ -35,7 +35,7 @@ public class HumanPlayer extends Joueur {
             System.out.println("Taking card");
 
             Joueur[] js = table.getJoueurs();
-            for(int i = 0; i < Table.nbJoueur; i++) {
+            for(int i = 0; i < table.getNbJoueur(); i++) {
                 System.out.printf("Player %s (ID %d) :",js[i].nom,i);
                 for(int k = 0; k < 2; k++) {
                     if(js[i].getOffer()[k] == null ) continue;

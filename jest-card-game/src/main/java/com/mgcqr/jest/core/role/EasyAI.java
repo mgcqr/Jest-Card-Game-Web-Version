@@ -25,13 +25,13 @@ public class EasyAI implements Movement {
     }
     public void takeCard(Joueur j,int PlayerId,boolean isFaceUp, Table table) {
         int counter = 0;
-        boolean[] avaliableIndex = new boolean[Table.nbJoueur];
+        boolean[] avaliableIndex = new boolean[table.getNbJoueur()];
         Arrays.fill(avaliableIndex, false);
 
         Joueur[] js = table.getJoueurs();
 
         //---------------------------------------------------------------打印所有玩家的offer信息
-        for(int i = 0; i < Table.nbJoueur; i++) {
+        for(int i = 0; i < table.getNbJoueur(); i++) {
             System.out.printf("Player %s (ID %d) :",js[i].nom,i);
             for(int k = 0; k < 2; k++) {
                 if(js[i].getOffer()[k] == null ) continue;
@@ -45,7 +45,7 @@ public class EasyAI implements Movement {
             System.out.println();
         }
         //-------------------------------------------------------------------跳过只有一张牌的的人 剩下的人里随机挑一个随机拿一张牌
-        for(int i = 0; i < Table.nbJoueur; i++) {//记录offer还有两张牌的人(isAvaliable == true) 并计数
+        for(int i = 0; i < table.getNbJoueur(); i++) {//记录offer还有两张牌的人(isAvaliable == true) 并计数
             if(js[i].isAvalliable()) {
                 avaliableIndex[i] = true;
                 counter++;
@@ -62,7 +62,7 @@ public class EasyAI implements Movement {
 
         int[] playerIndex = new int[counter];//只记录所有可被拿牌玩家的编号 排除不可被拿牌的人
         int k = 0;
-        for(int i = 0; i < Table.nbJoueur; i++) {
+        for(int i = 0; i < table.getNbJoueur(); i++) {
             if(avaliableIndex[i]) {
                 playerIndex[k] = i;
                 k++;

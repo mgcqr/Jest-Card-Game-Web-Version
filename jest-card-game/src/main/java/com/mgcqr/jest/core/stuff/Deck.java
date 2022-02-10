@@ -93,7 +93,7 @@ public class Deck {
      */
     public void dealCard() {//第一局发两张牌给所有玩家
         Joueur[] joueur = table.getJoueurs();
-        for(int i = 0; i < Table.nbJoueur;i++) {
+        for(int i = 0; i < table.getNbJoueur();i++) {
             // deal 2 cards
             joueur[i].cardIn(getCard(), CardAim.offer);
             joueur[i].cardIn(getCard(), CardAim.offer);
@@ -107,7 +107,7 @@ public class Deck {
      */
     public void dealCard(Stack stack) {//发牌给Stack
         //System.out.println(Table.nbJoueur);
-        for(int i = 0; i< Table.nbJoueur;i++) {
+        for(int i = 0; i< table.getNbJoueur();i++) {
             stack.cardIn(getCard());
         }
     }

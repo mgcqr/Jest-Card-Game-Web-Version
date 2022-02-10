@@ -11,7 +11,7 @@ public class AwardMoin implements Awarder {//遍历找最小值
         int temp = 5;
         Suit suit = c.getSuit();
 
-        for(int i = 0; i < Table.nbJoueur; i++) {//player i
+        for(int i = 0; i < table.getNbJoueur(); i++) {//player i
             int low = 5;
             int[] value = js[i].getJestValue();
 
