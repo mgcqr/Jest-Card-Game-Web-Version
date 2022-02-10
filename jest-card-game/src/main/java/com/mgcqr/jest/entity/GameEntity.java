@@ -3,6 +3,8 @@ package com.mgcqr.jest.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mgcqr.jest.enumeration.GameState;
 import lombok.Data;
 
@@ -15,6 +17,11 @@ public class GameEntity {
     private String id;
     private GameState state;
     private String description;
+
+    @JsonProperty("start_time")
+    @JsonFormat(pattern ="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
+
+    @JsonProperty("finish_time")
     private LocalDateTime finishTime;
 }

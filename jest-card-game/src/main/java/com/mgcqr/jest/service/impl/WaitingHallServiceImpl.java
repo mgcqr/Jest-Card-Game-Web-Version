@@ -52,7 +52,7 @@ public class WaitingHallServiceImpl implements WaitingHallService {
     public PageResDto<GameEntity> getWaitingGameListPage(PageRequestDto requestDto){
         LambdaQueryWrapper<GameEntity> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(GameEntity::getState, GameState.Waiting.toString())
-                .orderByAsc(GameEntity::getStartTime);
+                .orderByDesc(GameEntity::getStartTime);
         Page<GameEntity> page = new Page<>(requestDto.getCurrent(), requestDto.getSize());
         page = gameMapper.selectPage(page,wrapper);
         PageResDto<GameEntity> res = new PageResDto<>();
@@ -117,6 +117,14 @@ public class WaitingHallServiceImpl implements WaitingHallService {
         wrapper.eq(GameUserRelEntity::getGameId, dto.getId())
                 .eq(GameUserRelEntity::getUserId, UserContextHolder.getId());
         gameUserRelMapper.delete(wrapper);
+
+        wrapper.clear();
+        wrapper.eq(GameUserRelEntity::getGameId, dto.getId());
+        long userInGameCount = gameUserRelMapper.selectCount(wrapper);
+        if(userInGameCount == 0){
+            //最后一人退出, 删除游戏
+            gameMapper.deleteById(dto.getId());
+        }
 
         return true;
     }

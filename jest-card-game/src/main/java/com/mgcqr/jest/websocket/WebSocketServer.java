@@ -24,6 +24,7 @@ public class WebSocketServer {
             synchronized (this) {
 //                System.out.println("发送数据：" + message);
                 session.getBasicRemote().sendText(message);
+//                session.getBasicRemote().sendObject();
             }
         }
     }
