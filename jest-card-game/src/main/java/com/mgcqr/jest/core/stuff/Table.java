@@ -30,7 +30,7 @@ public class Table implements Runnable {
 
     @Getter
     private int nbJoueur = 0;
-    public static int nbAI;
+    private int nbAI;
     public static GameMode gameMode;
     public static int hasTakenOffer = 0;//used as a list of boolean,  1 for true
     public static int hasBeenTakenOffer;//Index of player whose card has been taken last time.
@@ -94,8 +94,8 @@ public class Table implements Runnable {
     }
 
     public void setParametre(int nbPlayer, int nbAI, String[] names, GameMode gm) {
-        nbJoueur = nbPlayer;
-        Table.nbAI = nbAI;
+        this.nbJoueur = nbPlayer;
+        this.nbAI = nbAI;
         this.noms = names;
         Table.gameMode = gm;
     }
