@@ -43,9 +43,9 @@ public class Condition {
      *
      * @return index of the player who wins the trophy.
      */
-    public int award() {//只有trophy才会被调用这个方法  只需要给trophy实例化对应的Awarder
+    public int award(Table table) {//只有trophy才会被调用这个方法  只需要给trophy实例化对应的Awarder
         this.awarder = Awarder.getInstance(type);
-        return this.awarder.award(this);
+        return this.awarder.award(this, table);
     }
 
 

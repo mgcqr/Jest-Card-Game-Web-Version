@@ -10,7 +10,8 @@ import com.mgcqr.jest.core.role.*;
  */
 public class Stack extends Deck {
 
-    public Stack(int length) {
+    public Stack(int length, Table table) {
+        this.table = table;
         super.setLength(length);
 
     }
@@ -23,7 +24,7 @@ public class Stack extends Deck {
      * Called by Table.main()
      */
     public void collectCard() {//收集offer中剩下的牌  *并改为正面向下*
-        Joueur[] joueurs = Table.getJoueurs();
+        Joueur[] joueurs = table.getJoueurs();
         Card c;
         for(int i = 0; i<Table.nbJoueur;i++) {
             c = joueurs[i].cardOut();

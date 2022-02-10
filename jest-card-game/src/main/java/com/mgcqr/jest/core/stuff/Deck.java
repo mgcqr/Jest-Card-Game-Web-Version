@@ -17,6 +17,8 @@ import java.util.Scanner;
  */
 public class Deck {
 
+    protected Table table;
+
     protected Card[] deck;
     protected int index = -1;//从-1开始  index等于最后一个卡牌的下标
 
@@ -25,7 +27,8 @@ public class Deck {
      * The entrance of all the cards.
      * @param dose The amount of cards in the beginning of game.
      */
-    public Deck(int dose) {//入参没什么意义 本来是给新卡准备的 固定传一个17
+    public Deck(int dose, Table table) {//入参没什么意义 本来是给新卡准备的 固定传一个17
+        this.table = table;
         deck = new Card[dose];
 
         Resource resource = new ClassPathResource("cards.txt");
@@ -89,7 +92,7 @@ public class Deck {
      * Deal card to player.
      */
     public void dealCard() {//第一局发两张牌给所有玩家
-        Joueur[] joueur = Table.getJoueurs();
+        Joueur[] joueur = table.getJoueurs();
         for(int i = 0; i < Table.nbJoueur;i++) {
             // deal 2 cards
             joueur[i].cardIn(getCard(), CardAim.offer);

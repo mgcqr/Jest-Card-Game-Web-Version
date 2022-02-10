@@ -23,12 +23,12 @@ public class EasyAI implements Movement {
         j.getOffer()[i].setFaceUp();
 
     }
-    public void takeCard(Joueur j,int PlayerId,boolean isFaceUp) {
+    public void takeCard(Joueur j,int PlayerId,boolean isFaceUp, Table table) {
         int counter = 0;
         boolean[] avaliableIndex = new boolean[Table.nbJoueur];
         Arrays.fill(avaliableIndex, false);
 
-        Joueur[] js = Table.getJoueurs();
+        Joueur[] js = table.getJoueurs();
 
         //---------------------------------------------------------------打印所有玩家的offer信息
         for(int i = 0; i < Table.nbJoueur; i++) {

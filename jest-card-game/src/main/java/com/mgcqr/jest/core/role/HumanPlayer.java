@@ -34,7 +34,7 @@ public class HumanPlayer extends Joueur {
 
             System.out.println("Taking card");
 
-            Joueur[] js = Table.getJoueurs();
+            Joueur[] js = table.getJoueurs();
             for(int i = 0; i < Table.nbJoueur; i++) {
                 System.out.printf("Player %s (ID %d) :",js[i].nom,i);
                 for(int k = 0; k < 2; k++) {
@@ -77,7 +77,7 @@ public class HumanPlayer extends Joueur {
 
             System.out.println(faceUp);
 
-            movement.takeCard(this, playerID , faceUp );
+            movement.takeCard(this, playerID , faceUp, table );
 
 
             //movement.takeCard(this);

@@ -5,8 +5,8 @@ import com.mgcqr.jest.core.role.Joueur;
 
 //lowest
 public class AwardMoin implements Awarder {//遍历找最小值
-    public int award(Condition c) {
-        Joueur[] js = Table.getJoueurs();
+    public int award(Condition c, Table table) {
+        Joueur[] js = table.getJoueurs();
         int tempID = -1;
         int temp = 5;
         Suit suit = c.getSuit();

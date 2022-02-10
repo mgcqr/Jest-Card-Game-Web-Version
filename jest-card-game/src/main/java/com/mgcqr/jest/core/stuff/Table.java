@@ -21,7 +21,7 @@ public class Table implements Runnable {
     private boolean awardInOrder = false;
     private int currentPlayer;
     private Step currentStep;
-    private static Joueur joueurs[];
+    private Joueur joueurs[];
     private static int round = 0;
     private String[] noms;
 
@@ -119,9 +119,9 @@ public class Table implements Runnable {
         joueurs = (Joueur[]) al.toArray(new Joueur[0]);
 
         //generate deck and stack
-        deck = new Deck(nbCartDefault);
+        deck = new Deck(nbCartDefault, this);
         deck.shuffle();
-        stack = new Stack(nbJoueur * 2);
+        stack = new Stack(nbJoueur * 2, this);
 
         trophy = new Card[5 - nbJoueur];//1 for 4 player  /2 for 3 player
         boolean hasHeart = false;
@@ -227,13 +227,13 @@ public class Table implements Runnable {
             if (awardInOrder) {//获得playerID直接加入jest
                 int winnerOfTrophy = 0;
                 for (int i = 0; i < trophy.length; i++) {
-                    winnerOfTrophy = trophy[i].getCondition().award();
+                    winnerOfTrophy = trophy[i].getCondition().award(this);
                     joueurs[winnerOfTrophy].cardIn(trophy[i], CardAim.jest);
                 }
             } else {//缓存playerID 统一加入jest
                 int[] winnerOfTrophy = new int[trophy.length];
                 for (int i = 0; i < trophy.length; i++) {
-                    winnerOfTrophy[i] = trophy[i].getCondition().award();
+                    winnerOfTrophy[i] = trophy[i].getCondition().award(this);
                 }
                 for (int i = 0; i < trophy.length; i++) {
                     joueurs[winnerOfTrophy[i]].cardIn(trophy[i], CardAim.jest);
@@ -270,7 +270,7 @@ public class Table implements Runnable {
     }
 
 
-    public static Joueur[] getJoueurs() {
+    public Joueur[] getJoueurs() {
         return joueurs;
     }
 

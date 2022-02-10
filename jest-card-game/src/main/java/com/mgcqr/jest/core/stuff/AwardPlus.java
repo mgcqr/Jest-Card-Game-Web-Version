@@ -6,8 +6,8 @@ import com.mgcqr.jest.core.role.Joueur;
 
 
 public class AwardPlus implements Awarder {
-    public int award(Condition c) {
-        Joueur[] js = Table.getJoueurs();
+    public int award(Condition c, Table table) {
+        Joueur[] js = table.getJoueurs();
         int value = c.getValue();
         Suit suit = c.getSuit();
 

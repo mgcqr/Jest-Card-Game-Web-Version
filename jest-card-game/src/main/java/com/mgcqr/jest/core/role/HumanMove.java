@@ -21,8 +21,8 @@ public class HumanMove implements Movement {
 
 
     }
-    public void takeCard(Joueur j, int playerID,boolean faceUp) {
-        Joueur[] js = Table.getJoueurs();
+    public void takeCard(Joueur j, int playerID,boolean faceUp, Table table) {
+        Joueur[] js = table.getJoueurs();
 
         Card c = js[playerID].cardOut(faceUp);
         j.cardIn(c, CardAim.jest);

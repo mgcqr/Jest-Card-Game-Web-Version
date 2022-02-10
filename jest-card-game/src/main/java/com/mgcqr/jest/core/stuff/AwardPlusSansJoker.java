@@ -5,13 +5,13 @@ import com.mgcqr.jest.core.role.Joueur;
 
 //highest score without joker
 public class AwardPlusSansJoker implements Awarder{
-    public int award(Condition c) {
-        Joueur[] js = Table.getJoueurs();
+    public int award(Condition c, Table table) {
+        Joueur[] js = table.getJoueurs();
         int tempID = -1;
         int temp = -100;
 
         Awarder a = new AwardJoker();
-        int jokerIndex = a.award(c);
+        int jokerIndex = a.award(c, table);
 
 
         for(int i = 0; i < Table.nbJoueur; i++) {
