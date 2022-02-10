@@ -20,7 +20,7 @@ public class HumanPlayer extends Joueur {
 
             boolean condi = true;
             while(condi) {
-                Object o = MailBox.consume();
+                Object o = table.getMailBox().consume();
                 if(o instanceof Integer) {
                     choice = (int)o;
                     condi = false;
@@ -53,7 +53,7 @@ public class HumanPlayer extends Joueur {
             System.out.println("To choose a card, input player ID :");
             int playerID = 0;
             while(true) {
-                Object o = MailBox.consume();
+                Object o = table.getMailBox().consume();
                 if(o instanceof Integer) {
                     playerID = (int)o;
                     break;
@@ -67,7 +67,7 @@ public class HumanPlayer extends Joueur {
             System.out.print("Choose a card (true for the face-up, false for the face-down):");
             boolean faceUp = false;
             while(true) {
-                Object o = MailBox.consume();
+                Object o = table.getMailBox().consume();
                 if(o instanceof Boolean) {
                     faceUp = (boolean)o;
                     break;

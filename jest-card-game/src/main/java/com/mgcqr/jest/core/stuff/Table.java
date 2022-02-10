@@ -30,6 +30,8 @@ public class Table implements Runnable {
     final public static int nbCartDefault = 17;
 
     @Getter
+    private MailBox mailBox;
+    @Getter
     private int nbJoueur = 0;
     private int nbAI;
     private GameMode gameMode;
@@ -41,6 +43,7 @@ public class Table implements Runnable {
 
 
     private Table() {
+        this.mailBox = new MailBox();
     }
 
 
@@ -267,7 +270,7 @@ public class Table implements Runnable {
     public static void main(String args[]) {
         Table t = new Table();
         t.play();
-        ConsoleInput consoleInput = new ConsoleInput();
+        ConsoleInput consoleInput = new ConsoleInput(t.mailBox);
         consoleInput.start();
 
     }

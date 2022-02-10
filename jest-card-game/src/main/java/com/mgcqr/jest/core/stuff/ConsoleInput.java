@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 public class ConsoleInput implements Runnable {
     private Thread t = null;
+    private MailBox mailBox;
+    public ConsoleInput(MailBox mailBox){
+        this.mailBox = mailBox;
+    }
     public void run() {
         Scanner scan = new Scanner(System.in);
         String str;
@@ -12,10 +16,10 @@ public class ConsoleInput implements Runnable {
                 str = scan.next();
                 try {
                     int a = Integer.parseInt(str);
-                    MailBox.produce(a);
+                    mailBox.produce(a);
                 }catch(Exception e) {
                     boolean faceUp = Boolean.parseBoolean(str);
-                    MailBox.produce(faceUp);
+                    mailBox.produce(faceUp);
                 }
 
             }
