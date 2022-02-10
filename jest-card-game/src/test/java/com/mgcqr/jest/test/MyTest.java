@@ -1,6 +1,7 @@
 package com.mgcqr.jest.test;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.mgcqr.jest.core.AsyncTest;
 import com.mgcqr.jest.dto.LoginDto;
 import com.mgcqr.jest.dto.PageRequestDto;
 import com.mgcqr.jest.entity.GameEntity;
@@ -37,6 +38,8 @@ public class MyTest {
     private GameMapper gameMapper;
     @Autowired
     private WaitingHallService waitingHallService;
+    @Autowired
+    private AsyncTest asyncTest;
 
     @Test
     public void test(){
@@ -132,6 +135,14 @@ public class MyTest {
         wrapper.eq(GameEntity::getState, GameState.Waiting.toString())
                 .orderByAsc(GameEntity::getStartTime);
         List<GameEntity> list = gameMapper.selectList(wrapper);
+    }
+
+    @Test
+    public void async(){
+        for (int i = 0; i < 10; i++){
+            asyncTest.task(i);
+        }
+        System.out.println("tasks started");
     }
 
 
