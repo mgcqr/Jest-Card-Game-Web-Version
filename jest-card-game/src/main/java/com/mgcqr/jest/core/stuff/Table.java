@@ -31,7 +31,7 @@ public class Table implements Runnable {
     @Getter
     private int nbJoueur = 0;
     private int nbAI;
-    public static GameMode gameMode;
+    private GameMode gameMode;
     public static int hasTakenOffer = 0;//used as a list of boolean,  1 for true
     public static int hasBeenTakenOffer;//Index of player whose card has been taken last time.
     //public static Card weekestCard = new Card ("Heart	1	joker	null	0");//weekest card in deciding order
@@ -97,7 +97,7 @@ public class Table implements Runnable {
         this.nbJoueur = nbPlayer;
         this.nbAI = nbAI;
         this.noms = names;
-        Table.gameMode = gm;
+        this.gameMode = gm;
     }
 
     /**
