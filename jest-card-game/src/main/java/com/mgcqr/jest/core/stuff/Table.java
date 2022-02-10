@@ -22,7 +22,7 @@ public class Table implements Runnable {
     private int currentPlayer;
     private Step currentStep;
     private Joueur joueurs[];
-    private static int round = 0;
+    private int round = 0;
     private String[] noms;
 
     final public static int nbCartDefault = 17;
@@ -274,7 +274,7 @@ public class Table implements Runnable {
         return joueurs;
     }
 
-    public static int getRound() {
+    public int getRound() {
         return round;
     }
 
