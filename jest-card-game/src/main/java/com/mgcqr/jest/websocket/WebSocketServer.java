@@ -1,6 +1,8 @@
 package com.mgcqr.jest.websocket;
 
-import org.springframework.stereotype.Component;
+import com.mgcqr.jest.dto.LoginResDto;
+import com.mgcqr.jest.util.JsonUtil;
+import org.springframework.stereotype.Controller;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -9,8 +11,8 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@ServerEndpoint("/webSocket/{sid}")
-@Component
+@Controller
+@ServerEndpoint("/webSocket")
 public class WebSocketServer {
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static AtomicInteger onlineNum = new AtomicInteger();
@@ -40,10 +42,10 @@ public class WebSocketServer {
 
     //建立连接成功调用
     @OnOpen
-    public void onOpen(Session session, @PathParam(value = "sid") String userName){
-        sessionPools.put(userName, session);
+    public void onOpen(Session session){
+//        sessionPools.put(dto.getToken(), session);
         addOnlineCount();
-        System.out.println(userName + "加入webSocket！当前人数为" + onlineNum);
+//        System.out.println(dto.getToken() + "加入webSocket！当前人数为" + onlineNum);
         try {
             sendMessage(session, "欢迎" + session.getId() + "加入连接！");
         } catch (IOException e) {
@@ -53,17 +55,19 @@ public class WebSocketServer {
 
     //关闭连接时调用
     @OnClose
-    public void onClose(@PathParam(value = "sid") String userName){
-        sessionPools.remove(userName);
+    public void onClose(){
         subOnlineCount();
-        System.out.println(userName + "断开webSocket连接！当前人数为" + onlineNum);
+        System.out.println( "断开webSocket连接！当前人数为" + onlineNum);
     }
+
+
 
     //收到客户端信息
     @OnMessage
     public void onMessage(String message) throws IOException{
+        LoginResDto dto = JsonUtil.toObject(message, LoginResDto.class);
         message = "客户端：" + message + ",已收到";
-        System.out.println(message);
+        System.out.println(dto.token);
         for (Session session: sessionPools.values()) {
             try {
                 sendMessage(session, message);
