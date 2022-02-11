@@ -16,24 +16,7 @@ public class HumanPlayer extends Joueur {
             this.getOffer()[1].show();
             System.out.println();
 
-            Integer choice = null;
-            while (true){
-                synchronized (table.getMailBox()) {
-                    if (!table.getMailBox().isFull()) {
-                        try {
-                            table.getMailBox().wait();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Object o = table.getMailBox().consume();
-                    table.getMailBox().notify();
-                    if(o instanceof Integer) {
-                        choice = (int)o;
-                        break;
-                    }
-                }
-            }
+            Integer choice = table.getMailBox().consumeInt();
             movement.makeOffer(this,choice);
         }
         else if(label == Operation.take_card) {
@@ -58,50 +41,13 @@ public class HumanPlayer extends Joueur {
 
 
             System.out.println("To choose a card, input player ID :");
-            Integer playerID = null;
-            while (true){
-                synchronized (table.getMailBox()) {
-                    if (!table.getMailBox().isFull()) {
-                        try {
-                            table.getMailBox().wait();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Object o = table.getMailBox().consume();
-                    table.getMailBox().notify();
-                    if(o instanceof Integer) {
-                        playerID = (int)o;
-                        break;
-                    }
-                }
-            }
-
-
+            Integer playerID = table.getMailBox().consumeInt();
             System.out.println(playerID);
 
             table.setCurrentStep(Step.take_card_choose_card);
 
             System.out.print("Choose a card (true for the face-up, false for the face-down):");
-            Boolean faceUp = null;
-            while (true){
-                synchronized (table.getMailBox()) {
-                    if (!table.getMailBox().isFull()) {
-                        try {
-                            table.getMailBox().wait();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Object o = table.getMailBox().consume();
-                    table.getMailBox().notify();
-                    if(o instanceof Boolean) {
-                        faceUp = (Boolean)o;
-                        break;
-                    }
-                }
-            }
-
+            Boolean faceUp = table.getMailBox().consumeBool();
             System.out.println(faceUp);
 
             movement.takeCard(this, playerID , faceUp, table );

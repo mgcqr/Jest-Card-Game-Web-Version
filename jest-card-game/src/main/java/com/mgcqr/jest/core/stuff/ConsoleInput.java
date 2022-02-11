@@ -16,30 +16,10 @@ public class ConsoleInput implements Runnable {
                 str = scan.next();
                 try {
                     int a = Integer.parseInt(str);
-                    synchronized (mailBox){
-                        if(mailBox.isFull()){
-                            try {
-                                mailBox.wait();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        mailBox.produce(a);
-                        mailBox.notify();
-                    }
+                    mailBox.produce(a);
                 }catch(Exception e) {
                     boolean faceUp = Boolean.parseBoolean(str);
-                    synchronized (mailBox){
-                        if(mailBox.isFull()){
-                            try {
-                                mailBox.wait();
-                            } catch (InterruptedException e2) {
-                                e2.printStackTrace();
-                            }
-                        }
-                        mailBox.produce(faceUp);
-                        mailBox.notify();
-                    }
+                    mailBox.produce(faceUp);
                 }
 
             }
