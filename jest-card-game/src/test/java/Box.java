@@ -3,14 +3,28 @@ public class Box {
     private boolean full;
 
     public synchronized void setMessage(String msg){
+        if(full) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         message = msg;
         full = true;
+        this.notify();
     }
     public synchronized String getMessage(){
+        if(! full) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         full = false;
-        return message;
-    }
-    public synchronized boolean isFull(){
-        return full;
+        String res = message;
+        this.notify();
+        return res;
     }
 }
