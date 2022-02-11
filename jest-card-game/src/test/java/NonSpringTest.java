@@ -68,4 +68,16 @@ public class NonSpringTest {
         String name = u.getClass().getName();
         System.out.println(name);
     }
+
+    @Test
+    public void testSynchronized(){
+        Box box = new Box();
+        Consumer consumer = new Consumer(box);
+        Producer producer = new Producer(box);
+        Thread t = new Thread(consumer);
+        t.start();
+        for(int i = 0; i < 10; i++){
+            producer.produce("message" + i);
+        }
+    }
 }

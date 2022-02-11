@@ -16,16 +16,23 @@ public class HumanPlayer extends Joueur {
             this.getOffer()[1].show();
             System.out.println();
 
-            int choice = 0;
-
-            boolean condi = true;
-            while(condi) {
-                Object o = table.getMailBox().consume();
-                if(o instanceof Integer) {
-                    choice = (int)o;
-                    condi = false;
+            Integer choice = null;
+            while (true){
+                synchronized (table.getMailBox()) {
+                    if (!table.getMailBox().isFull()) {
+                        try {
+                            table.getMailBox().wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Object o = table.getMailBox().consume();
+                    table.getMailBox().notify();
+                    if(o instanceof Integer) {
+                        choice = (int)o;
+                        break;
+                    }
                 }
-
             }
             movement.makeOffer(this,choice);
         }
@@ -51,28 +58,48 @@ public class HumanPlayer extends Joueur {
 
 
             System.out.println("To choose a card, input player ID :");
-            int playerID = 0;
-            while(true) {
-                Object o = table.getMailBox().consume();
-                if(o instanceof Integer) {
-                    playerID = (int)o;
-                    break;
+            Integer playerID = null;
+            while (true){
+                synchronized (table.getMailBox()) {
+                    if (!table.getMailBox().isFull()) {
+                        try {
+                            table.getMailBox().wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Object o = table.getMailBox().consume();
+                    table.getMailBox().notify();
+                    if(o instanceof Integer) {
+                        playerID = (int)o;
+                        break;
+                    }
                 }
-
             }
+
+
             System.out.println(playerID);
 
             table.setCurrentStep(Step.take_card_choose_card);
 
             System.out.print("Choose a card (true for the face-up, false for the face-down):");
-            boolean faceUp = false;
-            while(true) {
-                Object o = table.getMailBox().consume();
-                if(o instanceof Boolean) {
-                    faceUp = (boolean)o;
-                    break;
+            Boolean faceUp = null;
+            while (true){
+                synchronized (table.getMailBox()) {
+                    if (!table.getMailBox().isFull()) {
+                        try {
+                            table.getMailBox().wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Object o = table.getMailBox().consume();
+                    table.getMailBox().notify();
+                    if(o instanceof Boolean) {
+                        faceUp = (Boolean)o;
+                        break;
+                    }
                 }
-
             }
 
             System.out.println(faceUp);

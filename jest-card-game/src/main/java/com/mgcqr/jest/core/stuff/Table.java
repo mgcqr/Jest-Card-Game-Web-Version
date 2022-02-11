@@ -30,7 +30,7 @@ public class Table implements Runnable {
     final public static int nbCartDefault = 17;
 
     @Getter
-    private MailBox mailBox;
+    private final MailBox mailBox;
     @Getter
     private int nbJoueur = 0;
     private int nbAI;

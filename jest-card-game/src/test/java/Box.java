@@ -1,20 +1,16 @@
-package com.mgcqr.jest.core.stuff;
-
-public class MailBox {
-
-    private Object message;
+public class Box {
+    private String message;
     private boolean full;
 
-    public synchronized void produce(Object msg){
+    public synchronized void setMessage(String msg){
         message = msg;
         full = true;
     }
-    public synchronized Object consume(){
+    public synchronized String getMessage(){
         full = false;
         return message;
     }
     public synchronized boolean isFull(){
         return full;
     }
-
 }

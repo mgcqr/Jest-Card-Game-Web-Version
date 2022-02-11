@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class ConsoleInput implements Runnable {
     private Thread t = null;
-    private MailBox mailBox;
+    private final MailBox mailBox;
     public ConsoleInput(MailBox mailBox){
         this.mailBox = mailBox;
     }
@@ -16,10 +16,30 @@ public class ConsoleInput implements Runnable {
                 str = scan.next();
                 try {
                     int a = Integer.parseInt(str);
-                    mailBox.produce(a);
+                    synchronized (mailBox){
+                        if(mailBox.isFull()){
+                            try {
+                                mailBox.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        mailBox.produce(a);
+                        mailBox.notify();
+                    }
                 }catch(Exception e) {
                     boolean faceUp = Boolean.parseBoolean(str);
-                    mailBox.produce(faceUp);
+                    synchronized (mailBox){
+                        if(mailBox.isFull()){
+                            try {
+                                mailBox.wait();
+                            } catch (InterruptedException e2) {
+                                e2.printStackTrace();
+                            }
+                        }
+                        mailBox.produce(faceUp);
+                        mailBox.notify();
+                    }
                 }
 
             }
