@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Card {
     private Suit suit;
     private int value;
+    private String name;
     private boolean faceUp = false;
 
     private Condition condition;
@@ -17,7 +18,11 @@ public class Card {
         suit = Suit.convertString(scan.next());
         value = Integer.parseInt(scan.next());
         condition = new Condition(ConType.convertString(scan.next()), Suit.convertString(scan.next()), Integer.parseInt(scan.next()));
-
+        if(suit == null) {
+            name = "joker.png";
+        }else {
+            name = suit.toString() + value + ".png";
+        }
         scan.close();
     }
 
@@ -27,6 +32,9 @@ public class Card {
     }
     public int getValue() {
         return value;
+    }
+    public String getName() {
+        return name;
     }
 
     public void show() {
