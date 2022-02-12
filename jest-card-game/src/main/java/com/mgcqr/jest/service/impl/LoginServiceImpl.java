@@ -74,6 +74,7 @@ public class LoginServiceImpl implements LoginService {
         String token = KeyUtil.getKey();
         writeUserCache(token, userEntity);
         LoginResDto dto = new LoginResDto();
+        dto.setId(userEntity.getId());
         dto.setToken(token);
         return new ResponseWrapper<>(dto);
     }
@@ -97,6 +98,7 @@ public class LoginServiceImpl implements LoginService {
         String token = KeyUtil.getKey();
         writeUserCache(token, userEntity);
         LoginResDto dto = new LoginResDto();
+        dto.setId(userEntity.getId());
         dto.setToken(token);
         return new ResponseWrapper<>(dto);
     }

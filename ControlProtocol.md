@@ -27,7 +27,7 @@ Field "type" will be examined first when a message is received.
 
   * **token(String)** token get from login
   * **cardName(String)** Name of card taken
-  * **userName(String)** user whose card has been taken
+  * **userId(String)** user whose card has been taken
 
   
 
