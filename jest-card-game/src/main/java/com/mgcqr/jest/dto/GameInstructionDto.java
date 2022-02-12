@@ -3,6 +3,7 @@ package com.mgcqr.jest.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mgcqr.jest.enumeration.InstructionType;
 import lombok.Data;
+import org.springframework.lang.NonNull;
 
 @Data
 public class GameInstructionDto {

@@ -6,6 +6,7 @@ import com.mgcqr.jest.entity.UserEntity;
 import com.mgcqr.jest.mapper.GameMapper;
 import com.mgcqr.jest.mapper.UserUnionMapper;
 import com.mgcqr.jest.mapper.UserMapper;
+import com.mgcqr.jest.model.CurrentUserInfo;
 import com.mgcqr.jest.repository.RedisCacheRepository;
 import com.mgcqr.jest.service.WaitingHallService;
 import com.mgcqr.jest.websocket.WebSocketServer;
@@ -26,7 +27,7 @@ public class MyTest {
     private UserUnionMapper userUnionMapper;
 
     @Autowired
-    private RedisCacheRepository redisCacheRepository;
+    private RedisCacheRepository redis;
     @Autowired
     private GameMapper gameMapper;
     @Autowired
@@ -58,6 +59,15 @@ public class MyTest {
             asyncTest.task(i);
         }
         System.out.println("tasks started");
+    }
+
+    @Test
+    public void testRedis(){
+        String string = redis.get("aasda");
+
+        CurrentUserInfo info = redis.getObject("asda", CurrentUserInfo.class);
+
+        System.out.println();
     }
 
 

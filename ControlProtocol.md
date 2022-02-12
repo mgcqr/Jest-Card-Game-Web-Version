@@ -17,19 +17,17 @@ Field "type" will be examined first when a message is received.
 * make offer
 
   * type : "MakeOffer"
-
   * **token(String)** token get from login
   * **card_name(String)** Name of card to show
-
+  
 * take card
 
   * type : "TakeCard"
-
-  * **token(String)** token get from login
+* **token(String)** token get from login
   * **card_name(String)** Name of card taken
   * **target_user_id(String)** user whose card has been taken
-
   
+
 
 # Response
 

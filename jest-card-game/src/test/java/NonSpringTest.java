@@ -5,24 +5,24 @@ import com.mgcqr.jest.util.KeyUtil;
 import com.mgcqr.jest.util.RSAUtil;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
+import org.springframework.util.SystemPropertyUtils;
 
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class NonSpringTest {
     @Test
     public void test(){
 
-        String str1 = null;
-        String str2 = "";
-        String str3 = "string";
-        String str4 = " ";
-        System.out.println(StringUtils.hasText(str1));
-        System.out.println(StringUtils.hasText(str2));
-        System.out.println(StringUtils.hasText(str3));
-        System.out.println(StringUtils.hasText(str4));
+        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+        map.put("a", 1);
+        map.put("a", 2);
+
+
+        System.out.println("test");
     }
 
     @Test

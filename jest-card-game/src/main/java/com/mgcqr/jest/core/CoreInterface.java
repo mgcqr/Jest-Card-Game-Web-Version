@@ -7,7 +7,7 @@ public class CoreInterface {
     private InstructionInfo instruction;
     private boolean full = false;
 
-    public synchronized void produce(InstructionInfo inst){
+    public synchronized void produce(InstructionInfo instruction){
         if(full) {
             try {
                 this.wait();
@@ -15,7 +15,7 @@ public class CoreInterface {
                 e.printStackTrace();
             }
         }
-        instruction = inst;
+        this.instruction = instruction;
         full = true;
         this.notify();
     }

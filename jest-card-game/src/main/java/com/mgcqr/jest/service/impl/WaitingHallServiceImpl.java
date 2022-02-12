@@ -2,6 +2,7 @@ package com.mgcqr.jest.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mgcqr.jest.core.GameRunner;
 import com.mgcqr.jest.dto.IdRequestDto;
 import com.mgcqr.jest.dto.NewGameResDto;
 import com.mgcqr.jest.dto.PageRequestDto;
@@ -14,13 +15,13 @@ import com.mgcqr.jest.mapper.GameMapper;
 import com.mgcqr.jest.mapper.GameUserRelMapper;
 import com.mgcqr.jest.service.WaitingHallService;
 import com.mgcqr.jest.util.KeyUtil;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,6 +32,8 @@ public class WaitingHallServiceImpl implements WaitingHallService {
     private GameMapper gameMapper;
     @Autowired
     private GameUserRelMapper gameUserRelMapper;
+    @Autowired
+    private GameRunner gameRunner;
 
     @Override
     public NewGameResDto newGame(String gameDescription){
@@ -69,32 +72,43 @@ public class WaitingHallServiceImpl implements WaitingHallService {
     @Override
     @Transactional
     public boolean joinGame(IdRequestDto dto){
-        LambdaQueryWrapper<GameUserRelEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(GameUserRelEntity::getGameId, dto.getId());
-        Long userCount = gameUserRelMapper.selectCount(wrapper);
-        if( userCount >= 3 )
+        GameEntity game = gameMapper.selectById(dto.getId());
+        if(game == null)//game doesn't exist
             return false;
 
-        GameUserRelEntity entity = new GameUserRelEntity();
-        entity.setGameId(dto.getId());
-        entity.setUserId(UserContextHolder.getId());
+        LambdaQueryWrapper<GameUserRelEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(GameUserRelEntity::getGameId, dto.getId());
+        List<GameUserRelEntity> usersInGame = gameUserRelMapper.selectList(wrapper);
 
-        wrapper.clear();
-        wrapper.eq(GameUserRelEntity::getGameId, dto.getId())
-                .eq(GameUserRelEntity::getUserId, entity.getUserId());
-        if (gameUserRelMapper.selectCount(wrapper) == 0){//不存在才添加 方法要求幂等
+        if( usersInGame.size() >= 3 )
+            return false;
+
+        boolean hasCurrentUser = false;
+        for(GameUserRelEntity entity : usersInGame){
+            if(entity.getUserId().equals(UserContextHolder.getId())) {
+                hasCurrentUser = true;
+                break;
+            }
+        }
+        if (!hasCurrentUser){//不存在才添加 方法要求幂等
+            GameUserRelEntity entity = new GameUserRelEntity();
+            entity.setGameId(dto.getId());
+            entity.setUserId(UserContextHolder.getId());
             entity.setId(KeyUtil.getKey());
             gameUserRelMapper.insert(entity);
         }
 
-        if (userCount == 2){
+        if (usersInGame.size() == 2){
             //插入后满员
             //自动开始游戏
-            GameEntity game = gameMapper.selectById(dto.getId());
             game.setState(GameState.Running);
             gameMapper.updateById(game);
-
-            //TODO call game start method
+            List<String> userIds = new ArrayList<>();
+            for(GameUserRelEntity entity : usersInGame){
+                userIds.add(entity.getUserId());
+            }
+            userIds.add(UserContextHolder.getId());
+            gameRunner.runGame(game.getId(), userIds);
         }
 
         return true;
