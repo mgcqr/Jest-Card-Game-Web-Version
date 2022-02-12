@@ -14,14 +14,13 @@ public class BasicServiceImpl {
 
     @Transactional
     public void debug(){
-        UserEntity user = new UserEntity();
-        user.setId("test");
-        user.setUserName("name");
-        user.setPassWord("password");
-
-        userMapper.insert(user);
-
-        throw new RuntimeException();
+//        UserEntity user = new UserEntity();
+//        user.setId("test");
+//        user.setUserName("name");
+//        user.setPassWord("password");
+//
+//        userMapper.insert(user);
+        System.out.println("basic service");
     }
 
 }

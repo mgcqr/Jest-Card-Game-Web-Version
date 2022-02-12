@@ -4,6 +4,7 @@ import com.mgcqr.jest.util.Base64Util;
 import com.mgcqr.jest.util.KeyUtil;
 import com.mgcqr.jest.util.RSAUtil;
 import org.junit.Test;
+import org.springframework.util.StringUtils;
 
 import java.security.KeyPair;
 import java.security.PrivateKey;
@@ -14,7 +15,14 @@ public class NonSpringTest {
     @Test
     public void test(){
 
-        System.out.println(GameState.Running.toString());
+        String str1 = null;
+        String str2 = "";
+        String str3 = "string";
+        String str4 = " ";
+        System.out.println(StringUtils.hasText(str1));
+        System.out.println(StringUtils.hasText(str2));
+        System.out.println(StringUtils.hasText(str3));
+        System.out.println(StringUtils.hasText(str4));
     }
 
     @Test

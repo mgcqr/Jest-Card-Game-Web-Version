@@ -10,24 +10,24 @@ Field "type" will be examined first when a message is received.
 
   > first message since websocket open
 
-  * type : "initial"
+  * type : "Initial"
 
   * **token(String)** token get from login
 
 * make offer
 
-  * type : "makeOffer"
+  * type : "MakeOffer"
 
   * **token(String)** token get from login
-  * **cardName(String)** Name of card to show
+  * **card_name(String)** Name of card to show
 
 * take card
 
-  * type : "takeCard"
+  * type : "TakeCard"
 
   * **token(String)** token get from login
-  * **cardName(String)** Name of card taken
-  * **userId(String)** user whose card has been taken
+  * **card_name(String)** Name of card taken
+  * **target_user_id(String)** user whose card has been taken
 
   
 

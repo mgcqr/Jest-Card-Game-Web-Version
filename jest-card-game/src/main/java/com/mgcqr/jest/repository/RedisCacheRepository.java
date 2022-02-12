@@ -138,7 +138,7 @@ public class RedisCacheRepository {
     public <K, V> V getObject(K key, Class<V> valueType){
         String value = this.get(key);
         V result = null;
-        if (!StringUtils.isEmpty(value)) {
+        if (StringUtils.hasText(value)) {
             try {
                 result = JsonUtil.toObject(value, valueType);
             }catch (Exception e){
@@ -159,7 +159,7 @@ public class RedisCacheRepository {
     public <K, V> List<V> getList(K key, Class<V> valueType) {
         String value = this.get(key);
         List<V> result = Collections.emptyList();
-        if (!StringUtils.isEmpty(value)) {
+        if (StringUtils.hasText(value)) {
             try {
                 result = JsonUtil.toList(value, valueType);
             }catch (Exception e){

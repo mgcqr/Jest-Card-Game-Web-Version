@@ -1,8 +1,19 @@
 package com.mgcqr.jest.websocket;
 
+import com.mgcqr.jest.dto.GameInstructionDto;
 import com.mgcqr.jest.dto.LoginResDto;
+import com.mgcqr.jest.dto.PublicKeyResDto;
+import com.mgcqr.jest.interceptor.UserContextHolder;
+import com.mgcqr.jest.model.CurrentUserInfo;
+import com.mgcqr.jest.model.InstructionInfo;
+import com.mgcqr.jest.repository.RedisCacheRepository;
+import com.mgcqr.jest.service.impl.BasicServiceImpl;
 import com.mgcqr.jest.util.JsonUtil;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -19,6 +30,21 @@ public class WebSocketServer {
 
     //concurrent包的线程安全Set，用来存放每个客户端对应的WebSocketServer对象。
     private static ConcurrentHashMap<String, Session> sessionPools = new ConcurrentHashMap<>();
+
+    /**
+     * {@code
+     * @Autowired
+     * private RedisCacheRepository redis;
+     * }
+     * 这样注入的bean不能被onError onMessage onClose onOpen访问
+     * 只有sendMessage这样不带websocket注解的方法可以访问
+     */
+    private static RedisCacheRepository redis;
+
+    @Autowired
+    public void setRedisCacheRepository(RedisCacheRepository redis){
+        WebSocketServer.redis = redis;
+    }
 
     //发送消息
     public void sendMessage(Session session, String message) throws IOException {
@@ -43,9 +69,8 @@ public class WebSocketServer {
     //建立连接成功调用
     @OnOpen
     public void onOpen(Session session){
-//        sessionPools.put(dto.getToken(), session);
         addOnlineCount();
-//        System.out.println(dto.getToken() + "加入webSocket！当前人数为" + onlineNum);
+        System.out.println("加入webSocket！当前人数为" + onlineNum);
         try {
             sendMessage(session, "欢迎" + session.getId() + "加入连接！");
         } catch (IOException e) {
@@ -64,17 +89,28 @@ public class WebSocketServer {
 
     //收到客户端信息
     @OnMessage
-    public void onMessage(String message) throws IOException{
-        LoginResDto dto = JsonUtil.toObject(message, LoginResDto.class);
-        message = "客户端：" + message + ",已收到";
-        System.out.println(dto.token);
-        for (Session session: sessionPools.values()) {
-            try {
-                sendMessage(session, message);
-            } catch(Exception e){
-                e.printStackTrace();
-            }
+    public void onMessage(Session session, String message) throws IOException{
+        System.out.println(message);
+        GameInstructionDto dto = JsonUtil.toObject(message, GameInstructionDto.class);
+        InstructionInfo instruction = new InstructionInfo();
+        BeanUtils.copyProperties(dto, instruction);
+
+        String token = dto.getToken();
+        if(StringUtils.hasText(token) && redis.hasKey(token)){
+            System.out.println("user logged in on websocket");
+            System.out.println("token: " + token);
+            redis.expireDefault(token);
+            CurrentUserInfo currentUser = redis.getObject(token,CurrentUserInfo.class);
+            instruction.setUserId(currentUser.getId());
+        }else {
+            System.out.println("token missing or wrong. Closing");
+            session.close();
         }
+
+
+
+
+        System.out.println(dto.toString());
     }
 
     //错误时调用
