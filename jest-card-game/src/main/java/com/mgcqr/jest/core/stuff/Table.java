@@ -58,7 +58,7 @@ public class Table implements Runnable {
         }
 
         InitialInfoDto dto = mailBox.consume(InitialInfoDto.class);
-        this.setParametre(3, 0, new String[] {"wuyufei"}, GameMode.Original);
+        this.setParametre(3, 0, dto.getUserIds().toArray(new String[]{}), GameMode.Original);
 
         initialiser();
 

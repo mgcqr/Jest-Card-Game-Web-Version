@@ -7,21 +7,26 @@ import com.mgcqr.jest.dto.LoginResDto;
 import com.mgcqr.jest.entity.UserEntity;
 import com.mgcqr.jest.model.InstructionInfo;
 import com.mgcqr.jest.util.JsonUtil;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import org.junit.Test;
 import test.Box;
 import test.Consumer;
 import test.Producer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 public class NonSpringTest {
     @Test
     public void test(){
-        InstructionInfo son = new InstructionInfo();
-        GameInstructionDto dad = new InstructionInfo();
-        System.out.println(son instanceof GameInstructionDto);
-        System.out.println(InstructionInfo.class.isInstance(dad));
+        ArrayList<String> list = new ArrayList<>();
+        list.add("asda");
+        list.add("qweqwe");
+        list.add("zxcz");
+        String[] array = list.toArray(new String[]{});
+        System.out.println(array);
 
     }
 
