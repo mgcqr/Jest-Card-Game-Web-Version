@@ -1,7 +1,8 @@
 package com.mgcqr.jest.core.role;
 
+import com.mgcqr.jest.core.dto.MakeOfferDto;
+import com.mgcqr.jest.core.dto.TakeCardDto;
 import com.mgcqr.jest.core.enumeration.*;
-import com.mgcqr.jest.core.stuff.MailBox;
 import com.mgcqr.jest.core.stuff.Table;
 
 public class HumanPlayer extends Joueur {
@@ -16,8 +17,8 @@ public class HumanPlayer extends Joueur {
             this.getOffer()[1].show();
             System.out.println();
 
-            Integer choice = table.getMailBox().consumeInt();
-            movement.makeOffer(this,choice);
+            MakeOfferDto dto = table.getMailBox().consume(MakeOfferDto.class);
+            movement.makeOffer(this,dto.getCardNum());
         }
         else if(label == Operation.take_card) {
             System.out.printf("Player %s (ID %d) is tacking card \n",nom,this.getID());
@@ -41,13 +42,14 @@ public class HumanPlayer extends Joueur {
 
 
             System.out.println("To choose a card, input player ID :");
-            Integer playerID = table.getMailBox().consumeInt();
+            TakeCardDto dto = table.getMailBox().consume(TakeCardDto.class);
+            Integer playerID = dto.getPlayerID();
             System.out.println(playerID);
 
             table.setCurrentStep(Step.take_card_choose_card);
 
             System.out.print("Choose a card (true for the face-up, false for the face-down):");
-            Boolean faceUp = table.getMailBox().consumeBool();
+            Boolean faceUp = dto.getIsFaceUp();
             System.out.println(faceUp);
 
             movement.takeCard(this, playerID , faceUp, table );

@@ -1,3 +1,5 @@
+package test;
+
 public class Box {
     private String message;
     private boolean full;

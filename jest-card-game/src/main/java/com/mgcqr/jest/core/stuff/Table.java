@@ -1,5 +1,6 @@
 package com.mgcqr.jest.core.stuff;
 
+import com.mgcqr.jest.core.dto.InitialInfoDto;
 import com.mgcqr.jest.core.enumeration.*;
 import com.mgcqr.jest.core.role.*;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import java.util.Scanner;
 public class Table implements Runnable {
 
     private Thread t;
+    private String gameId;
 
     private Deck deck;
     private Stack stack;
@@ -42,8 +44,9 @@ public class Table implements Runnable {
     //public static Card weekestCard = new Card ("Heart	1	joker	null	0");//weekest card in deciding order
 
 
-    private Table() {
+    private Table(String gameId) {
         this.mailBox = new MailBox();
+        this.gameId = gameId;
     }
 
 
@@ -54,8 +57,8 @@ public class Table implements Runnable {
             e.printStackTrace();
         }
 
-
-        this.setParametre(3, 2, new String[] {"wuyufei"}, GameMode.Original);
+        InitialInfoDto dto = mailBox.consume(InitialInfoDto.class);
+        this.setParametre(3, 0, new String[] {"wuyufei"}, GameMode.Original);
 
         initialiser();
 
@@ -257,7 +260,7 @@ public class Table implements Runnable {
 
     public void play() {
         if (t == null) {
-            t = new Thread(null, this, "modele");
+            t = new Thread(null, this, "game id:" + gameId);
             t.start();
         }
 
@@ -268,10 +271,8 @@ public class Table implements Runnable {
      * @param args
      */
     public static void main(String args[]) {
-        Table t = new Table();
+        Table t = new Table("Local Game");
         t.play();
-        ConsoleInput consoleInput = new ConsoleInput(t.mailBox);
-        consoleInput.start();
 
     }
 

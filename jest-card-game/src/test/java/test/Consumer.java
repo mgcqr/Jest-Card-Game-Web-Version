@@ -1,3 +1,5 @@
+package test;
+
 public class Consumer implements Runnable {
     private Box box;
     public Consumer(Box b){box = b;}

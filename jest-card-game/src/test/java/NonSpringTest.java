@@ -1,28 +1,28 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.mgcqr.jest.core.dto.MailBoxDto;
+import com.mgcqr.jest.core.stuff.MailBox;
+import com.mgcqr.jest.dto.GameInstructionDto;
+import com.mgcqr.jest.dto.LoginDto;
+import com.mgcqr.jest.dto.LoginResDto;
 import com.mgcqr.jest.entity.UserEntity;
-import com.mgcqr.jest.enumeration.GameState;
-import com.mgcqr.jest.util.Base64Util;
-import com.mgcqr.jest.util.KeyUtil;
-import com.mgcqr.jest.util.RSAUtil;
+import com.mgcqr.jest.model.InstructionInfo;
+import com.mgcqr.jest.util.JsonUtil;
 import org.junit.Test;
-import org.springframework.util.StringUtils;
-import org.springframework.util.SystemPropertyUtils;
+import test.Box;
+import test.Consumer;
+import test.Producer;
 
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 public class NonSpringTest {
     @Test
     public void test(){
+        InstructionInfo son = new InstructionInfo();
+        GameInstructionDto dad = new InstructionInfo();
+        System.out.println(son instanceof GameInstructionDto);
+        System.out.println(InstructionInfo.class.isInstance(dad));
 
-        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
-        map.put("a", 1);
-        map.put("a", 2);
-
-
-        System.out.println("test");
     }
 
     @Test
