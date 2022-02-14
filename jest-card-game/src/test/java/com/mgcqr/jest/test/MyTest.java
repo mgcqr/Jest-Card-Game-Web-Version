@@ -9,7 +9,7 @@ import com.mgcqr.jest.mapper.UserMapper;
 import com.mgcqr.jest.model.CurrentUserInfo;
 import com.mgcqr.jest.repository.RedisCacheRepository;
 import com.mgcqr.jest.service.WaitingHallService;
-import com.mgcqr.jest.websocket.WebSocketServer;
+import com.mgcqr.jest.websocket.WebSocketRouter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ public class MyTest {
     @Autowired
     private AsyncTest asyncTest;
     @Autowired
-    private WebSocketServer server;
+    private WebSocketRouter server;
 
     @Test
     public void test(){

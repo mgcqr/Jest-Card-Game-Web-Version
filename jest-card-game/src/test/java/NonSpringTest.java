@@ -5,17 +5,17 @@ import test.Consumer;
 import test.Producer;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class NonSpringTest {
     @Test
     public void test(){
-        ArrayList<String> list = new ArrayList<>();
-        list.add("asda");
-        list.add("qweqwe");
-        list.add("zxcz");
-        String[] array = list.toArray(new String[]{});
-        System.out.println(array);
+        ConcurrentHashMap<String,String> map = new ConcurrentHashMap<>();
+        map.put("aa","bb");
+        String s = map.get("asda");
+
+        System.out.println();
 
     }
 

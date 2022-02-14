@@ -4,7 +4,6 @@ import com.mgcqr.jest.core.CoreInterface;
 import com.mgcqr.jest.dto.GameInstructionDto;
 import com.mgcqr.jest.enumeration.InstructionType;
 import com.mgcqr.jest.model.InstructionInfo;
-import com.mgcqr.jest.repository.RedisCacheRepository;
 import com.mgcqr.jest.service.UserService;
 import com.mgcqr.jest.util.JsonUtil;
 import org.springframework.beans.BeanUtils;
@@ -14,19 +13,21 @@ import org.springframework.stereotype.Controller;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
 @ServerEndpoint("/webSocket")
-public class WebSocketServer {
+public class WebSocketRouter {
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static final AtomicInteger onlineNum = new AtomicInteger();
 
     //userId to session
     private static final ConcurrentHashMap<String, Session> sessionPool = new ConcurrentHashMap<>();
-    //userId to game
+    //userId to game core
     private static final ConcurrentHashMap<String, CoreInterface> gameCorePool = new ConcurrentHashMap<>();
 
     /**
@@ -40,27 +41,28 @@ public class WebSocketServer {
     private static UserService userService;
     @Autowired
     public void setUserService(UserService userService){
-        WebSocketServer.userService = userService;
+        WebSocketRouter.userService = userService;
     }
 
 
     //发送消息
-    public void sendMessage(Session session, String message) throws IOException {
+    public void sendMessage(Session session, String jsonMessage) {
         if(session != null){
-            synchronized (this) {
-//                System.out.println("发送数据：" + message);
-                session.getBasicRemote().sendText(message);
-//                session.getBasicRemote().sendObject();
-            }
+//            synchronized (this) {
+//                session.getBasicRemote().sendText(jsonMessage);
+//            }
+            session.getAsyncRemote().sendText(jsonMessage);
         }
     }
     //给指定用户发送信息
-    public void sendInfo(String userName, String message){
-        Session session = sessionPool.get(userName);
-        try {
-            sendMessage(session, message);
-        }catch (Exception e){
-            e.printStackTrace();
+    public void sendMessage(String userId, String jsonMessage){
+        Session session = sessionPool.get(userId);
+        sendMessage(session, jsonMessage);
+    }
+
+    public void multicast(List<String> userIds, String message){
+        for(String id : userIds){
+            sendMessage(id, message);
         }
     }
 
@@ -69,11 +71,7 @@ public class WebSocketServer {
     public void onOpen(Session session){
         addOnlineCount();
         System.out.println("加入webSocket！当前人数为" + onlineNum);
-        try {
-            sendMessage(session, "欢迎" + session.getId() + "加入连接！");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sendMessage(session, "欢迎" + session.getId() + "加入连接！");
     }
 
     //关闭连接时调用
@@ -130,9 +128,32 @@ public class WebSocketServer {
         throwable.printStackTrace();
     }
 
-    public void registerGame(List<String> userIds, CoreInterface coreInterface){
+    public boolean registerGame(List<String> userIds, CoreInterface coreInterface){
         for(String id : userIds){
             gameCorePool.put(id, coreInterface);
+        }
+
+        for(int i = 0; i < 10; i++){
+            if(sessionPool.keySet().containsAll(userIds))
+                return true;
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public void cancelGame(List<String> userIds){
+        Set<String> idSet = new HashSet<>(userIds);
+        for(String key : sessionPool.keySet()){
+            if(idSet.contains(key))
+                sessionPool.remove(key);
+        }
+        for(String key : gameCorePool.keySet()){
+            if(idSet.contains(key))
+                gameCorePool.remove(key);
         }
     }
 
