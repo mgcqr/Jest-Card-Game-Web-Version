@@ -1,7 +1,6 @@
 package com.mgcqr.jest.core.stuff;
 
-import com.mgcqr.jest.core.dto.InitialInfoDto;
-import com.mgcqr.jest.core.dto.MakeOfferDisplayDto;
+import com.mgcqr.jest.core.dto.*;
 import com.mgcqr.jest.core.enumeration.*;
 import com.mgcqr.jest.core.role.*;
 import lombok.Getter;
@@ -9,6 +8,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -64,6 +64,8 @@ public class Table implements Runnable {
 
         initialiser();
 
+        mailBox.produce(new TrophyDisplayDto(trophy));
+
         setCurrentStep(Step.start);
         deck.showDeck();
         deck.dealCard();
@@ -86,6 +88,15 @@ public class Table implements Runnable {
             System.out.printf("Score of %s (ID %d) is :", joueurs[i].getNom(), i);
             System.out.println(joueurs[i].getScore());
         }
+        List<UserGameResult> results = new ArrayList<>();
+        for(int i = 0; i < nbJoueur; i++){
+            UserGameResult userRes = new UserGameResult();
+            userRes.setUserId(noms[i]);
+            userRes.setJest(joueurs[i].getJest());
+            userRes.setScore(joueurs[i].getScore());
+            results.add(userRes);
+        }
+        mailBox.produce(new GameResultDto(results));
         setCurrentStep(Step.finish);
     }
 
