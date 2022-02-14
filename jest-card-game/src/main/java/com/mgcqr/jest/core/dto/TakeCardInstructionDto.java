@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TakeCardDto extends MailBoxDto{
+public class TakeCardInstructionDto extends MailBoxDto{
     //design extended from game core design
     //index of array (table.joueurs[])
     private Integer playerID;

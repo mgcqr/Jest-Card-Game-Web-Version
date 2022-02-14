@@ -1,21 +1,10 @@
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.mgcqr.jest.core.dto.MailBoxDto;
-import com.mgcqr.jest.core.stuff.MailBox;
-import com.mgcqr.jest.dto.GameInstructionDto;
-import com.mgcqr.jest.dto.LoginDto;
-import com.mgcqr.jest.dto.LoginResDto;
 import com.mgcqr.jest.entity.UserEntity;
-import com.mgcqr.jest.model.InstructionInfo;
-import com.mgcqr.jest.util.JsonUtil;
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import org.junit.Test;
 import test.Box;
 import test.Consumer;
 import test.Producer;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 public class NonSpringTest {
@@ -48,8 +37,25 @@ public class NonSpringTest {
         Producer producer = new Producer(box);
         Thread t = new Thread(consumer);
         t.start();
-        for(int i = 0; i < 10; i++){
-            producer.produce("message" + i);
-        }
+//
+//        MailBoxDto dto = new MailBoxDto();
+//
+//        MakeOfferDto makeOfferDto = new MakeOfferDto();
+//        makeOfferDto.setChoice(12);
+//
+//        TakeCardDto takeCardDto = new TakeCardDto();
+//        takeCardDto.setIsFaceUp(true);
+//        takeCardDto.setPlayerID(100);
+//
+//        producer.produce(dto);
+//        producer.produce(makeOfferDto);
+//        producer.produce(takeCardDto);
+//        producer.produce(takeCardDto);
+//        producer.produce(makeOfferDto);
+//        producer.produce(takeCardDto);
+//        producer.produce(makeOfferDto);
+
+
+        System.out.println("test");
     }
 }

@@ -1,6 +1,8 @@
 package com.mgcqr.jest.core;
 
+import com.mgcqr.jest.core.dto.InitialInfoDto;
 import com.mgcqr.jest.core.stuff.MailBox;
+import com.mgcqr.jest.core.stuff.Table;
 import com.mgcqr.jest.websocket.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -11,11 +13,6 @@ import java.util.List;
 @Service
 public class GameRunner {
 
-    //set by runGame()
-    private static final ThreadLocal<CoreInterface> CORE_INTERFACE = new ThreadLocal<>();
-    //get from Table
-    private static final ThreadLocal<MailBox> MAIL_BOX = new ThreadLocal<>();
-
     @Autowired
     private WebSocketServer webSocketServer;
 
@@ -25,6 +22,16 @@ public class GameRunner {
 
         webSocketServer.registerGame(userIds, coreInterface);
 
+        Table table = new Table(gameId);
+        MailBox mailBox = table.getMailBox();
+
+        table.play();
+
+        InitialInfoDto initial = new InitialInfoDto();
+        initial.setUserIds(userIds);
+        mailBox.produce(initial);
+
+        //TODO take card输入校验
 
 
     }

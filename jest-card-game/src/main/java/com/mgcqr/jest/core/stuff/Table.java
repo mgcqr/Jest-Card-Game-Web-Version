@@ -1,13 +1,15 @@
 package com.mgcqr.jest.core.stuff;
 
 import com.mgcqr.jest.core.dto.InitialInfoDto;
+import com.mgcqr.jest.core.dto.MakeOfferDisplayDto;
 import com.mgcqr.jest.core.enumeration.*;
 import com.mgcqr.jest.core.role.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The method main() host the flow of game.
@@ -44,7 +46,7 @@ public class Table implements Runnable {
     //public static Card weekestCard = new Card ("Heart	1	joker	null	0");//weekest card in deciding order
 
 
-    private Table(String gameId) {
+    public Table(String gameId) {
         this.mailBox = new MailBox();
         this.gameId = gameId;
     }
@@ -81,7 +83,7 @@ public class Table implements Runnable {
 
         for (int i = 0; i < nbJoueur; i++) {//结算
             joueurs[i].accept(new Calculator());
-            System.out.printf("Score of %s (ID %d) is :", joueurs[i].getName(), i);
+            System.out.printf("Score of %s (ID %d) is :", joueurs[i].getNom(), i);
             System.out.println(joueurs[i].getScore());
         }
         setCurrentStep(Step.finish);
@@ -113,7 +115,7 @@ public class Table implements Runnable {
      * Set all the players.Define play mode.
      * Initialize deck, stack, trophy,and shuffle deck.
      */
-    private void initialiser() {//初始化  读输入 创建玩家  创建牌堆  洗牌  给trophy发牌
+    private void initialiser() {
 
 
         //generate players
@@ -175,6 +177,15 @@ public class Table implements Runnable {
 
         System.out.printf("/************ Round %d ******************/\n", round);
         // step of making offer
+        //make offer 的展示信息全部发出再逐个等Instruction
+        //异步到达的Instruction由GameRunner排好序按序发到mailbox
+        Map<String, Card[]> offers = new HashMap<>();
+        for (int i = 0; i < nbJoueur; i++){
+            offers.put(noms[i], joueurs[i].getOffer());
+        }
+        MakeOfferDisplayDto makeOfferDisplayDto = new MakeOfferDisplayDto();
+        makeOfferDisplayDto.setUserOffers(offers);
+        mailBox.produce(makeOfferDisplayDto);
 
         for (int i = 0; i < nbJoueur; i++) {
             currentPlayer = i;

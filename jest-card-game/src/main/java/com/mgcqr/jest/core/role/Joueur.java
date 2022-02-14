@@ -134,7 +134,7 @@ public abstract class Joueur implements Element {
      * If offer is full.
      * @return
      */
-    public boolean isAvalliable() {
+    public boolean isAvaliable() {
         return (offer[0] != null && offer[1] != null);
     }
 
@@ -159,7 +159,7 @@ public abstract class Joueur implements Element {
     public Card[] getJest() {//转成数组型好操作
         return (Card[]) jest.toArray(new Card[0]);
     }
-    public String getName() {
+    public String getNom() {
         return nom;
     }
     public void accept(Visitor visitor) {//访问者模式  传入一个访问者对象 调用这个访问者的visit方法  新加的方法写在visit方法里

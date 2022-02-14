@@ -46,7 +46,7 @@ public class EasyAI implements Movement {
         }
         //-------------------------------------------------------------------跳过只有一张牌的的人 剩下的人里随机挑一个随机拿一张牌
         for(int i = 0; i < table.getNbJoueur(); i++) {//记录offer还有两张牌的人(isAvaliable == true) 并计数
-            if(js[i].isAvalliable()) {
+            if(js[i].isAvaliable()) {
                 avaliableIndex[i] = true;
                 counter++;
             }

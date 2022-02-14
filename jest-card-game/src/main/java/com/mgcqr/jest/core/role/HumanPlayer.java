@@ -1,9 +1,14 @@
 package com.mgcqr.jest.core.role;
 
-import com.mgcqr.jest.core.dto.MakeOfferDto;
-import com.mgcqr.jest.core.dto.TakeCardDto;
+import com.mgcqr.jest.core.dto.MakeOfferInstructionDto;
+import com.mgcqr.jest.core.dto.TakeCardDisplayDto;
+import com.mgcqr.jest.core.dto.TakeCardInstructionDto;
 import com.mgcqr.jest.core.enumeration.*;
+import com.mgcqr.jest.core.stuff.Card;
 import com.mgcqr.jest.core.stuff.Table;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HumanPlayer extends Joueur {
     public HumanPlayer(String nom, Movement mov) {
@@ -12,13 +17,13 @@ public class HumanPlayer extends Joueur {
 
     public void jouer( Operation label, Table table) {//两种游戏步骤分别调用movement的方法
         if(label == Operation.make_offer) {
-            System.out.println(table.getCurrentPlayer().getName()+" (ID"+table.getCurrentPlayer().getID()+ ") Making offer");
+            System.out.println(table.getCurrentPlayer().getNom()+" (ID"+table.getCurrentPlayer().getID()+ ") Making offer");
             this.getOffer()[0].show();
             this.getOffer()[1].show();
             System.out.println();
 
-            MakeOfferDto dto = table.getMailBox().consume(MakeOfferDto.class);
-            movement.makeOffer(this,dto.getCardNum());
+            MakeOfferInstructionDto dto = table.getMailBox().consume(MakeOfferInstructionDto.class);
+            movement.makeOffer(this,dto.getChoice());
         }
         else if(label == Operation.take_card) {
             System.out.printf("Player %s (ID %d) is tacking card \n",nom,this.getID());
@@ -40,16 +45,27 @@ public class HumanPlayer extends Joueur {
                 System.out.println();
             }
 
+            Map<String, Card[]> availableOffers = new HashMap<>();
+            for(Joueur j : js){
+                if(j.isAvaliable()){
+                    availableOffers.put(j.getNom(), j.getOffer());
+                }
+            }
+            TakeCardDisplayDto takeCardDisplayDto = new TakeCardDisplayDto();
+            takeCardDisplayDto.setUserOffers(availableOffers);
+            takeCardDisplayDto.setUserId(this.nom);
+            table.getMailBox().produce(takeCardDisplayDto);
+
 
             System.out.println("To choose a card, input player ID :");
-            TakeCardDto dto = table.getMailBox().consume(TakeCardDto.class);
-            Integer playerID = dto.getPlayerID();
+            TakeCardInstructionDto takeCardInstructionDto = table.getMailBox().consume(TakeCardInstructionDto.class);
+            Integer playerID = takeCardInstructionDto.getPlayerID();
             System.out.println(playerID);
 
             table.setCurrentStep(Step.take_card_choose_card);
 
             System.out.print("Choose a card (true for the face-up, false for the face-down):");
-            Boolean faceUp = dto.getIsFaceUp();
+            Boolean faceUp = takeCardInstructionDto.getIsFaceUp();
             System.out.println(faceUp);
 
             movement.takeCard(this, playerID , faceUp, table );
