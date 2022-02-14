@@ -5,6 +5,6 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class MakeOfferInstructionDto extends MailBoxDto {
+public class MakeOfferInstructionDto extends MailBoxAbsDto {
     private int choice;
 }

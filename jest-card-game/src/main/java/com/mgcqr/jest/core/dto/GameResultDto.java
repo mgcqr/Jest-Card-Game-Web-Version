@@ -9,6 +9,6 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-public class GameResultDto extends MailBoxDto {
+public class GameResultDto extends MailBoxAbsDto {
     private List<UserGameResult> results;
 }

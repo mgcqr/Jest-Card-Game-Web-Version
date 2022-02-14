@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TakeCardDisplayDto extends MailBoxDto {
+public class TakeCardDisplayDto extends MailBoxAbsDto {
 
     private String userId;
     //key is user database id

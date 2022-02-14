@@ -8,6 +8,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-public class TrophyDisplayDto extends MailBoxDto {
+public class TrophyDisplayDto extends MailBoxAbsDto {
     private Card[] trophy;
 }

@@ -1,13 +1,13 @@
 package com.mgcqr.jest.core.stuff;
 
-import com.mgcqr.jest.core.dto.MailBoxDto;
+import com.mgcqr.jest.core.dto.MailBoxAbsDto;
 
 public class MailBox {
 
-    private MailBoxDto message;
+    private MailBoxAbsDto message;
     private boolean full = false;
 
-    public synchronized void produce(MailBoxDto msg){
+    public synchronized void produce(MailBoxAbsDto msg){
         if(full) {
             try {
                 this.wait();
@@ -20,7 +20,7 @@ public class MailBox {
         this.notify();
     }
 
-    public synchronized<T extends MailBoxDto> T consume(Class<T> type){
+    public synchronized<T extends MailBoxAbsDto> T consume(Class<T> type){
         T res;
         while (true){
             if(!full) {
