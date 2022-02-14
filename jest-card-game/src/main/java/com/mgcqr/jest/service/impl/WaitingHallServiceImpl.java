@@ -3,6 +3,8 @@ package com.mgcqr.jest.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mgcqr.jest.core.GameRunner;
+import com.mgcqr.jest.core.dto.GameResultDto;
+import com.mgcqr.jest.core.dto.UserGameResult;
 import com.mgcqr.jest.dto.IdRequestDto;
 import com.mgcqr.jest.dto.NewGameResDto;
 import com.mgcqr.jest.dto.PageRequestDto;
@@ -13,6 +15,7 @@ import com.mgcqr.jest.enumeration.GameState;
 import com.mgcqr.jest.interceptor.UserContextHolder;
 import com.mgcqr.jest.mapper.GameMapper;
 import com.mgcqr.jest.mapper.GameUserRelMapper;
+import com.mgcqr.jest.model.RuntimeUserInfo;
 import com.mgcqr.jest.service.WaitingHallService;
 import com.mgcqr.jest.util.KeyUtil;
 import org.springframework.beans.BeanUtils;
@@ -103,12 +106,14 @@ public class WaitingHallServiceImpl implements WaitingHallService {
             //自动开始游戏
             game.setState(GameState.Running);
             gameMapper.updateById(game);
-            List<String> userIds = new ArrayList<>();
+            List<RuntimeUserInfo> users = new ArrayList<>();
             for(GameUserRelEntity entity : usersInGame){
-                userIds.add(entity.getUserId());
+                RuntimeUserInfo info = new RuntimeUserInfo();
+                BeanUtils.copyProperties(entity, info);
+                users.add(info);
             }
-            userIds.add(UserContextHolder.getId());
-            gameRunner.runGame(game.getId(), userIds);
+            users.add(UserContextHolder.get());
+            gameRunner.runGame(game.getId(), users);
         }
 
         return true;
@@ -143,6 +148,23 @@ public class WaitingHallServiceImpl implements WaitingHallService {
         return true;
     }
 
-
-
+    @Override
+    @Transactional
+    public void finishGame(String gameId, GameResultDto gameResultDto){
+        GameEntity entity = gameMapper.selectById(gameId);
+        entity.setState(GameState.Closed);
+        entity.setFinishTime(LocalDateTime.now());
+        gameMapper.updateById(entity);
+        if(gameResultDto != null){
+            LambdaQueryWrapper<GameUserRelEntity> wrapper = new LambdaQueryWrapper<>();
+            for(UserGameResult res : gameResultDto.getResults()){
+                wrapper.eq(GameUserRelEntity::getGameId, gameId)
+                        .eq(GameUserRelEntity::getUserId, res.getUserId());
+                GameUserRelEntity relEntity = gameUserRelMapper.selectOne(wrapper);
+                relEntity.setScore(res.getScore());
+                gameUserRelMapper.updateById(relEntity);
+                wrapper.clear();
+            }
+        }
+    }
 }

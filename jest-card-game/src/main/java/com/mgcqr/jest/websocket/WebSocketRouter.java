@@ -1,12 +1,12 @@
 package com.mgcqr.jest.websocket;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mgcqr.jest.core.CoreInterface;
-import com.mgcqr.jest.dto.GameInstructionDto;
+import com.mgcqr.jest.dto.ws.GameInstructionDto;
+import com.mgcqr.jest.dto.ws.GameResponseAbsDto;
 import com.mgcqr.jest.enumeration.InstructionType;
-import com.mgcqr.jest.model.InstructionInfo;
 import com.mgcqr.jest.service.UserService;
 import com.mgcqr.jest.util.JsonUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -46,23 +46,27 @@ public class WebSocketRouter {
 
 
     //发送消息
-    public void sendMessage(Session session, String jsonMessage) {
+    private void sendMessage(Session session, String message) {
         if(session != null){
 //            synchronized (this) {
-//                session.getBasicRemote().sendText(jsonMessage);
+//                session.getBasicRemote().sendText(message);
 //            }
-            session.getAsyncRemote().sendText(jsonMessage);
+            session.getAsyncRemote().sendText(message);
         }
     }
     //给指定用户发送信息
-    public void sendMessage(String userId, String jsonMessage){
+    public void sendMessage(String userId, GameResponseAbsDto responseDto){
         Session session = sessionPool.get(userId);
-        sendMessage(session, jsonMessage);
+        try {
+            sendMessage(session, JsonUtil.toJsonString(responseDto));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void multicast(List<String> userIds, String message){
+    public void multicast(List<String> userIds, GameResponseAbsDto responseDto){
         for(String id : userIds){
-            sendMessage(id, message);
+            sendMessage(id, responseDto);
         }
     }
 
@@ -107,12 +111,10 @@ public class WebSocketRouter {
             if(dto.getType() == InstructionType.Initial){ //first message only
                 sessionPool.put(userId, session);
             }else {
-                InstructionInfo instruction = new InstructionInfo();
-                BeanUtils.copyProperties(dto, instruction);
-                instruction.setUserId(userId);
+                dto.setUserId(userId);
                 CoreInterface coreInterface = gameCorePool.get(userId);
                 if(coreInterface != null){
-                    coreInterface.produce(instruction);
+                    coreInterface.produce(dto);
                 }
             }
         }else {

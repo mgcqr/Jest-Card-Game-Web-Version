@@ -1,6 +1,6 @@
 package com.mgcqr.jest.interceptor;
 
-import com.mgcqr.jest.model.CurrentUserInfo;
+import com.mgcqr.jest.model.RuntimeUserInfo;
 import com.mgcqr.jest.repository.RedisCacheRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             System.out.println("user logged in");
             System.out.println("token: " + token);
             redis.expireDefault(token);
-            CurrentUserInfo currentUser = redis.getObject(token,CurrentUserInfo.class);
+            RuntimeUserInfo currentUser = redis.getObject(token, RuntimeUserInfo.class);
             UserContextHolder.set(currentUser);
             return true;
         }else {

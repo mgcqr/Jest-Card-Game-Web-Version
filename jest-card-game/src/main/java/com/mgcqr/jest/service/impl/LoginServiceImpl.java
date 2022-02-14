@@ -6,7 +6,7 @@ import com.mgcqr.jest.dto.LoginResDto;
 import com.mgcqr.jest.dto.ResponseWrapper;
 import com.mgcqr.jest.entity.UserEntity;
 import com.mgcqr.jest.mapper.UserMapper;
-import com.mgcqr.jest.model.CurrentUserInfo;
+import com.mgcqr.jest.model.RuntimeUserInfo;
 import com.mgcqr.jest.repository.RedisCacheRepository;
 import com.mgcqr.jest.service.LoginService;
 import com.mgcqr.jest.util.AesEncryptUtil;
@@ -105,9 +105,9 @@ public class LoginServiceImpl implements LoginService {
 
 
     private void writeUserCache(String token, UserEntity userEntity){
-        CurrentUserInfo currentUserInfo = new CurrentUserInfo();
-        BeanUtils.copyProperties(userEntity, currentUserInfo);
-        redis.setWithDefaultExpireTime(token, currentUserInfo);
+        RuntimeUserInfo runtimeUserInfo = new RuntimeUserInfo();
+        BeanUtils.copyProperties(userEntity, runtimeUserInfo);
+        redis.setWithDefaultExpireTime(token, runtimeUserInfo);
     }
 
     /**

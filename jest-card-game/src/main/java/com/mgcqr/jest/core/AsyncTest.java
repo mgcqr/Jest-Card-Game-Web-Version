@@ -1,6 +1,5 @@
 package com.mgcqr.jest.core;
 
-import com.mgcqr.jest.model.CurrentUserInfo;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 

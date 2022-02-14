@@ -1,13 +1,13 @@
 package com.mgcqr.jest.core;
 
-import com.mgcqr.jest.model.InstructionInfo;
+import com.mgcqr.jest.dto.ws.GameInstructionDto;
 
 public class CoreInterface {
 
-    private InstructionInfo instruction;
+    private GameInstructionDto instruction;
     private boolean full = false;
 
-    public synchronized void produce(InstructionInfo instruction){
+    public synchronized void produce(GameInstructionDto instruction){
         if(full) {
             try {
                 this.wait();
@@ -20,8 +20,8 @@ public class CoreInterface {
         this.notify();
     }
 
-    public synchronized InstructionInfo consume(){
-        InstructionInfo res;
+    public synchronized GameInstructionDto consume(){
+        GameInstructionDto res;
         if(!full) {
             try {
                 this.wait();

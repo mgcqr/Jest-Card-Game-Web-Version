@@ -10,6 +10,6 @@ public interface Movement {
      * @param j
      * @return Return playerID of the player whose card has been taken
      */
-    public void takeCard(Joueur j, int PlayerId, boolean isFaceUp, Table table);
+    public void takeCard(Joueur j, int PlayerId, String targetCardName, Table table);
 }
 //返回被拿牌玩家的id

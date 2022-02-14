@@ -1,12 +1,12 @@
 package com.mgcqr.jest.interceptor;
 
-import com.mgcqr.jest.model.CurrentUserInfo;
+import com.mgcqr.jest.model.RuntimeUserInfo;
 
 public class UserContextHolder {
-    private static final ThreadLocal<CurrentUserInfo> USER_INFO_THREAD_LOCAL = new ThreadLocal<>();
+    private static final ThreadLocal<RuntimeUserInfo> USER_INFO_THREAD_LOCAL = new ThreadLocal<>();
 
 
-    public static CurrentUserInfo get() {
+    public static RuntimeUserInfo get() {
         return USER_INFO_THREAD_LOCAL.get();
     }
 
@@ -18,7 +18,7 @@ public class UserContextHolder {
         return get().getUserName();
     }
 
-    protected static void set(CurrentUserInfo user) {
+    protected static void set(RuntimeUserInfo user) {
         USER_INFO_THREAD_LOCAL.set(user);
     }
 

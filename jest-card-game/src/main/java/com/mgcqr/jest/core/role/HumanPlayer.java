@@ -16,7 +16,7 @@ public class HumanPlayer extends Joueur {
     }
 
     public void jouer( Operation label, Table table) {//两种游戏步骤分别调用movement的方法
-        if(label == Operation.make_offer) {
+        if(label == Operation.MakeOffer) {
             System.out.println(table.getCurrentPlayer().getNom()+" (ID"+table.getCurrentPlayer().getID()+ ") Making offer");
             this.getOffer()[0].show();
             this.getOffer()[1].show();
@@ -25,7 +25,7 @@ public class HumanPlayer extends Joueur {
             MakeOfferInstructionDto dto = table.getMailBox().consume(MakeOfferInstructionDto.class);
             movement.makeOffer(this,dto.getChoice());
         }
-        else if(label == Operation.take_card) {
+        else if(label == Operation.TakeCard) {
             System.out.printf("Player %s (ID %d) is tacking card \n",nom,this.getID());
 
             System.out.println("Taking card");
@@ -51,8 +51,12 @@ public class HumanPlayer extends Joueur {
                     availableOffers.put(j.getNom(), j.getOffer());
                 }
             }
+            //只有只剩唯一选项的时候才能选择自己的牌
+            if(availableOffers.size() > 1){
+                availableOffers.remove(nom);
+            }
             TakeCardDisplayDto takeCardDisplayDto = new TakeCardDisplayDto();
-            takeCardDisplayDto.setUserOffers(availableOffers);
+            takeCardDisplayDto.setAvailableOffers(availableOffers);
             takeCardDisplayDto.setUserId(this.nom);
             table.getMailBox().produce(takeCardDisplayDto);
 
@@ -65,10 +69,10 @@ public class HumanPlayer extends Joueur {
             table.setCurrentStep(Step.take_card_choose_card);
 
             System.out.print("Choose a card (true for the face-up, false for the face-down):");
-            Boolean faceUp = takeCardInstructionDto.getIsFaceUp();
-            System.out.println(faceUp);
+            String targetCardName = takeCardInstructionDto.getCardName();
+            System.out.println(targetCardName);
 
-            movement.takeCard(this, playerID , faceUp, table );
+            movement.takeCard(this, playerID , targetCardName, table );
 
 
             //movement.takeCard(this);

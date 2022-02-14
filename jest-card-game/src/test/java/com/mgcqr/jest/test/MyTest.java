@@ -6,7 +6,7 @@ import com.mgcqr.jest.entity.UserEntity;
 import com.mgcqr.jest.mapper.GameMapper;
 import com.mgcqr.jest.mapper.UserUnionMapper;
 import com.mgcqr.jest.mapper.UserMapper;
-import com.mgcqr.jest.model.CurrentUserInfo;
+import com.mgcqr.jest.model.RuntimeUserInfo;
 import com.mgcqr.jest.repository.RedisCacheRepository;
 import com.mgcqr.jest.service.WaitingHallService;
 import com.mgcqr.jest.websocket.WebSocketRouter;
@@ -65,7 +65,7 @@ public class MyTest {
     public void testRedis(){
         String string = redis.get("aasda");
 
-        CurrentUserInfo info = redis.getObject("asda", CurrentUserInfo.class);
+        RuntimeUserInfo info = redis.getObject("asda", RuntimeUserInfo.class);
 
         System.out.println();
     }

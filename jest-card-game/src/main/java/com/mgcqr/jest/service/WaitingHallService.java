@@ -1,5 +1,6 @@
 package com.mgcqr.jest.service;
 
+import com.mgcqr.jest.core.dto.GameResultDto;
 import com.mgcqr.jest.dto.IdRequestDto;
 import com.mgcqr.jest.dto.NewGameResDto;
 import com.mgcqr.jest.dto.PageRequestDto;
@@ -17,4 +18,7 @@ public interface WaitingHallService {
 
     @Transactional
     boolean quitGame(IdRequestDto dto);
+
+    @Transactional
+    void finishGame(String gameId, GameResultDto gameResultDto);
 }

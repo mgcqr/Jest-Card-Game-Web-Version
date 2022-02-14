@@ -19,9 +19,9 @@ public class Card {
         value = Integer.parseInt(scan.next());
         condition = new Condition(ConType.convertString(scan.next()), Suit.convertString(scan.next()), Integer.parseInt(scan.next()));
         if(suit == null) {
-            name = "joker.png";
+            name = "joker";
         }else {
-            name = suit.toString() + value + ".png";
+            name = suit.toString() + value;
         }
         scan.close();
     }

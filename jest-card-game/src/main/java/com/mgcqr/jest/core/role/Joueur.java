@@ -67,6 +67,17 @@ public abstract class Joueur implements Element {
         }
         return null;
     }
+    public Card cardOut(String cardName) {//按名字选牌  *并将指针回空*
+
+        for(int i = 0; i < 2; i++) {
+            if (offer[i].getName().equals(cardName)) {
+                Card c = offer[i];
+                offer[i] = null;
+                return c;
+            }
+        }
+        return null;
+    }
     /**
      * Called by stuff.Stack.collectCard() and tackBackOffer()
      * @return

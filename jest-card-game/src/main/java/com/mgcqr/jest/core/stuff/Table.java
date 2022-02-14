@@ -201,7 +201,7 @@ public class Table implements Runnable {
         for (int i = 0; i < nbJoueur; i++) {
             currentPlayer = i;
             setCurrentStep(Step.make_offer);
-            joueurs[i].jouer(Operation.make_offer, this);
+            joueurs[i].jouer(Operation.MakeOffer, this);
         }
 
 
@@ -227,7 +227,7 @@ public class Table implements Runnable {
             while (((hasTakenOffer >> cardTaker) & 1) == 0) {
                 currentPlayer = cardTaker;
                 setCurrentStep(Step.take_card_choose_ID);
-                joueurs[cardTaker].jouer(Operation.take_card, this);
+                joueurs[cardTaker].jouer(Operation.TakeCard, this);
                 cardTaker = hasBeenTakenOffer;
             }
 

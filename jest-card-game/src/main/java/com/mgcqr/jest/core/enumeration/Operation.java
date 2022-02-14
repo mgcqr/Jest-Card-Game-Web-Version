@@ -5,5 +5,5 @@ package com.mgcqr.jest.core.enumeration;
  *
  */
 public enum Operation {
-    make_offer,take_card
+    MakeOffer, TakeCard
 }

@@ -1,22 +1,30 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.mgcqr.jest.dto.ws.MakeOfferResDto;
 import com.mgcqr.jest.entity.UserEntity;
+import com.mgcqr.jest.model.RuntimeUserInfo;
+import com.mgcqr.jest.util.JsonUtil;
 import org.junit.Test;
 import test.Box;
 import test.Consumer;
 import test.Producer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 
 public class NonSpringTest {
     @Test
     public void test(){
-        ConcurrentHashMap<String,String> map = new ConcurrentHashMap<>();
-        map.put("aa","bb");
-        String s = map.get("asda");
-
-        System.out.println();
-
+        List<RuntimeUserInfo> users = new ArrayList<>();
+        for(int i = 0; i < 10; i++){
+            RuntimeUserInfo info = new RuntimeUserInfo();
+            info.setId(""+i);
+            users.add(info);
+        }
+        List<String> userIds = users.stream().map(RuntimeUserInfo::getId).collect(Collectors.toList());
+        System.out.println(userIds);
     }
 
     @Test

@@ -17,12 +17,12 @@ public class AI extends Joueur {
 
     public void jouer( Operation label, Table table) {//两种游戏步骤分别调用movement的方法
 
-        if(label == Operation.make_offer) {
+        if(label == Operation.MakeOffer) {
             movement.makeOffer(this,-1);
         }
-        else if(label == Operation.take_card) {
+        else if(label == Operation.TakeCard) {
             System.out.printf("Player %s (ID %d) is tacking card \n",nom,this.getID());
-            movement.takeCard(this,0,true, table);
+            movement.takeCard(this,0,null, table);
             //将代表自己的位置1 表示自己已经进行过takecard环节
             table.setHasTakenOffer(table.getHasTakenOffer() + (1<< this.getID()));
         }
