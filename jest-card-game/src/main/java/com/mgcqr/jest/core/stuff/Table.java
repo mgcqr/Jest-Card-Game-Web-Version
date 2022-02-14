@@ -92,7 +92,7 @@ public class Table implements Runnable {
         for(int i = 0; i < nbJoueur; i++){
             UserGameResult userRes = new UserGameResult();
             userRes.setUserId(noms[i]);
-            userRes.setJest(joueurs[i].getJest());
+            userRes.setJestCardNames(joueurs[i].getJest());
             userRes.setScore(joueurs[i].getScore());
             results.add(userRes);
         }
