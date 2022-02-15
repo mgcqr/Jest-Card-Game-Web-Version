@@ -13,9 +13,9 @@ import java.util.Map;
 public class TakeCardResDto extends GameResponseAbsDto{
     //user id to card names
     @JsonProperty("available_offers ")
-    private Map<String, List<String>> availableOffers;
+    private Map<String, String> availableOffers;
 
-    public TakeCardResDto(Map<String, List<String>> availableOffers){
+    public TakeCardResDto(Map<String, String> availableOffers){
         type = WsResponseType.TakeCard;
         this.availableOffers = availableOffers;
     }

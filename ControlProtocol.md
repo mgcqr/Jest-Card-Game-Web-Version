@@ -24,7 +24,7 @@ Field "type" will be examined first when a message is received.
 
   * type : "TakeCard"
   * **token(String)** token get from login
-  * **card_name(String)** Name of card taken
+  * **is_face_up(boolean)** Card taken is face up
   * **target_user_id(String)** user whose card has been taken
 
 > Client transfer all instructions via json

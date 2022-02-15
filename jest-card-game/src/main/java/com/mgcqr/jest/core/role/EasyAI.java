@@ -23,7 +23,7 @@ public class EasyAI implements Movement {
         j.getOffer()[i].setFaceUp();
 
     }
-    public void takeCard(Joueur j,int PlayerId,String targetCardName, Table table) {
+    public void takeCard(Joueur j,int PlayerId,boolean isFaceUp, Table table) {
         int counter = 0;
         boolean[] avaliableIndex = new boolean[table.getNbJoueur()];
         Arrays.fill(avaliableIndex, false);

@@ -109,11 +109,11 @@ public class GameRunner {
             for(int i = 0; i < 3; i++){
                 //send response
                 TakeCardDisplayDto takeCardDisplayDto = mailBoxOut.consume(TakeCardDisplayDto.class);
-                Map<String, Card[]> avaOffer = takeCardDisplayDto.getAvailableOffers();
-                Map<String, List<String>> avaOfferCardName = new HashMap<>();
+                Map<String, Card> avaOffer = takeCardDisplayDto.getAvailableOffers();
+                Map<String, String> avaOfferCardName = new HashMap<>();
                 for(String key : avaOffer.keySet()){
-                    Card[] cards = avaOffer.get(key);
-                    avaOfferCardName.put(key, cardArrayToNameList(cards));
+                    Card card = avaOffer.get(key);
+                    avaOfferCardName.put(key, card.getName());
                 }
                 webSocketRouter.sendMessage(takeCardDisplayDto.getUserId(), new TakeCardResDto(avaOfferCardName));
 
@@ -131,7 +131,7 @@ public class GameRunner {
                         break;
                     }
                 }
-                mailBoxIn.produce(new TakeCardInstructionDto(targetNum, instructionDto.getCardName()));
+                mailBoxIn.produce(new TakeCardInstructionDto(targetNum, instructionDto.getIsFaceUp()));
 
                 //Inform all
                 InfoBroadcastDto infoBroadcastDto = new InfoBroadcastDto();

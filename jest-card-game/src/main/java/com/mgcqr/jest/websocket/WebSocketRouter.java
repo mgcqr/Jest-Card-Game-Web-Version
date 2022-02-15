@@ -111,12 +111,16 @@ public class WebSocketRouter {
                 session.close();
                 return;
             }
-            System.out.println("receive message from websocket");
-            System.out.println("user id: " + userId);
+//            System.out.println("receive message from websocket");
+//            System.out.println("user id: " + userId);
+            try {
+                sendMessage(session, JsonUtil.toJsonString(new PongDto("receive " + dto.getType())));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
             if(dto.getType() == InstructionType.Initial){ //first message only
                 sessionPool.put(userId, session);
             }else {
-                System.out.println(gameCorePool.keySet());
                 dto.setUserId(userId);
                 CoreInterface coreInterface = gameCorePool.get(userId);
                 if(coreInterface != null){

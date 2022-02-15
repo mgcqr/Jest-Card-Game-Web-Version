@@ -22,7 +22,7 @@ public class AI extends Joueur {
         }
         else if(label == Operation.TakeCard) {
             System.out.printf("Player %s (ID %d) is tacking card \n",nom,this.getID());
-            movement.takeCard(this,0,null, table);
+            movement.takeCard(this,0,false, table);
             //将代表自己的位置1 表示自己已经进行过takecard环节
             table.setHasTakenOffer(table.getHasTakenOffer() + (1<< this.getID()));
         }

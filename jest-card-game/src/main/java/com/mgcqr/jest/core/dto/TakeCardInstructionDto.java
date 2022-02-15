@@ -11,5 +11,5 @@ public class TakeCardInstructionDto extends MailBoxAbsDto {
     //design extended from game core design
     //index of array (table.joueurs[])
     private Integer playerID;
-    private String cardName;
+    private Boolean isFaceUp;
 }

@@ -14,5 +14,7 @@ public class GameInstructionDto {
     private String cardName;
     @JsonProperty("target_user_id")
     private String targetUserId;
+    @JsonProperty("is_face_up")
+    private Boolean isFaceUp;
 
 }

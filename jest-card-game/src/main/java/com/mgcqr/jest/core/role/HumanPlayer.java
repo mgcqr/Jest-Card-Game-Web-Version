@@ -45,10 +45,15 @@ public class HumanPlayer extends Joueur {
                 System.out.println();
             }
 
-            Map<String, Card[]> availableOffers = new HashMap<>();
+            Map<String, Card> availableOffers = new HashMap<>();
             for(Joueur j : js){
                 if(j.isAvaliable()){
-                    availableOffers.put(j.getNom(), j.getOffer());
+                    Card[] offer = j.getOffer();
+                    for(Card c : offer){
+                        if(c.isFaceUp()){//只放入正面的牌
+                            availableOffers.put(j.getNom(), c);
+                        }
+                    }
                 }
             }
             //只有只剩唯一选项的时候才能选择自己的牌
@@ -69,10 +74,10 @@ public class HumanPlayer extends Joueur {
             table.setCurrentStep(Step.take_card_choose_card);
 
             System.out.print("Choose a card (true for the face-up, false for the face-down):");
-            String targetCardName = takeCardInstructionDto.getCardName();
-            System.out.println(targetCardName);
+            Boolean isFaceUp = takeCardInstructionDto.getIsFaceUp();
+            System.out.println(isFaceUp);
 
-            movement.takeCard(this, playerID , targetCardName, table );
+            movement.takeCard(this, playerID , isFaceUp, table );
 
 
             //movement.takeCard(this);

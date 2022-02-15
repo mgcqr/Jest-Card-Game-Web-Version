@@ -13,6 +13,6 @@ public class TakeCardDisplayDto extends MailBoxAbsDto {
     private String userId;
     //key is user database id
     //only contains offers remain 2 cards
-    private Map<String, Card[]> availableOffers;
+    private Map<String, Card> availableOffers;
 
 }
