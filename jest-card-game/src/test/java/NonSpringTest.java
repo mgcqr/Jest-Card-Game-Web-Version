@@ -9,7 +9,9 @@ import test.Consumer;
 import test.Producer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -17,14 +19,17 @@ import java.util.stream.Collectors;
 public class NonSpringTest {
     @Test
     public void test(){
-        List<RuntimeUserInfo> users = new ArrayList<>();
-        for(int i = 0; i < 10; i++){
-            RuntimeUserInfo info = new RuntimeUserInfo();
-            info.setId(""+i);
-            users.add(info);
-        }
-        List<String> userIds = users.stream().map(RuntimeUserInfo::getId).collect(Collectors.toList());
-        System.out.println(userIds);
+        Set<String> set = new HashSet<>();
+        set.add("a");
+        set.add("b");
+        set.add("c");
+        set.add("d");
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+        list.add("i");
+        System.out.println(set.containsAll(list));
+
     }
 
     @Test

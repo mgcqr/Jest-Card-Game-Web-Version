@@ -21,7 +21,7 @@ public class RedisCacheRepository {
 
     private final String DEFAULT_KEY_PREFIX = "";
     private final int EXPIRE_TIME = 15;
-    private final TimeUnit EXPIRE_TIME_TYPE = TimeUnit.MINUTES;
+    private final TimeUnit EXPIRE_TIME_TYPE = TimeUnit.HOURS;
 
 
 

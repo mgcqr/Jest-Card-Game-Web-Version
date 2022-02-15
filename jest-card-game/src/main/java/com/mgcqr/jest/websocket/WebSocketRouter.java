@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mgcqr.jest.core.CoreInterface;
 import com.mgcqr.jest.dto.ws.GameInstructionDto;
 import com.mgcqr.jest.dto.ws.GameResponseAbsDto;
+import com.mgcqr.jest.dto.ws.PongDto;
 import com.mgcqr.jest.enumeration.InstructionType;
 import com.mgcqr.jest.service.UserService;
 import com.mgcqr.jest.util.JsonUtil;
@@ -75,7 +76,11 @@ public class WebSocketRouter {
     public void onOpen(Session session){
         addOnlineCount();
         System.out.println("加入webSocket！当前人数为" + onlineNum);
-        sendMessage(session, "欢迎" + session.getId() + "加入连接！");
+        try {
+            sendMessage(session, JsonUtil.toJsonString(new PongDto("online num" + onlineNum)));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     //关闭连接时调用

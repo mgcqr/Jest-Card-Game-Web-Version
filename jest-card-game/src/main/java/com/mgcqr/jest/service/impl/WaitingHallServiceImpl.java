@@ -11,10 +11,12 @@ import com.mgcqr.jest.dto.PageRequestDto;
 import com.mgcqr.jest.dto.PageResDto;
 import com.mgcqr.jest.entity.GameEntity;
 import com.mgcqr.jest.entity.GameUserRelEntity;
+import com.mgcqr.jest.entity.UserEntity;
 import com.mgcqr.jest.enumeration.GameState;
 import com.mgcqr.jest.interceptor.UserContextHolder;
 import com.mgcqr.jest.mapper.GameMapper;
 import com.mgcqr.jest.mapper.GameUserRelMapper;
+import com.mgcqr.jest.mapper.UserMapper;
 import com.mgcqr.jest.model.RuntimeUserInfo;
 import com.mgcqr.jest.service.WaitingHallService;
 import com.mgcqr.jest.util.KeyUtil;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WaitingHallServiceImpl implements WaitingHallService {
@@ -37,6 +40,8 @@ public class WaitingHallServiceImpl implements WaitingHallService {
     private GameUserRelMapper gameUserRelMapper;
     @Autowired
     private GameRunner gameRunner;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public NewGameResDto newGame(String gameDescription){
@@ -106,8 +111,12 @@ public class WaitingHallServiceImpl implements WaitingHallService {
             //自动开始游戏
             game.setState(GameState.Running);
             gameMapper.updateById(game);
+
+            List<String> userIds = usersInGame.stream().map(GameUserRelEntity::getUserId).collect(Collectors.toList());
+            List<UserEntity> userEntities = userMapper.selectBatchIds(userIds);
+
             List<RuntimeUserInfo> users = new ArrayList<>();
-            for(GameUserRelEntity entity : usersInGame){
+            for(UserEntity entity : userEntities){
                 RuntimeUserInfo info = new RuntimeUserInfo();
                 BeanUtils.copyProperties(entity, info);
                 users.add(info);
