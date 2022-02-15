@@ -1,4 +1,6 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.mgcqr.jest.dto.ws.GameResultResDto;
+import com.mgcqr.jest.dto.ws.InfoBroadcastDto;
 import com.mgcqr.jest.dto.ws.MakeOfferResDto;
 import com.mgcqr.jest.entity.UserEntity;
 import com.mgcqr.jest.model.RuntimeUserInfo;
@@ -19,16 +21,12 @@ import java.util.stream.Collectors;
 public class NonSpringTest {
     @Test
     public void test(){
-        Set<String> set = new HashSet<>();
-        set.add("a");
-        set.add("b");
-        set.add("c");
-        set.add("d");
-        List<String> list = new ArrayList<>();
-        list.add("a");
-        list.add("b");
-        list.add("i");
-        System.out.println(set.containsAll(list));
+        GameResultResDto dto = new GameResultResDto();
+        try {
+            System.out.println(JsonUtil.toJsonString(dto));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
     }
 
