@@ -116,6 +116,7 @@ public class WebSocketRouter {
             if(dto.getType() == InstructionType.Initial){ //first message only
                 sessionPool.put(userId, session);
             }else {
+                System.out.println(gameCorePool.keySet());
                 dto.setUserId(userId);
                 CoreInterface coreInterface = gameCorePool.get(userId);
                 if(coreInterface != null){

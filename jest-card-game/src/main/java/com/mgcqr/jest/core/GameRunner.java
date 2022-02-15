@@ -39,20 +39,18 @@ public class GameRunner {
         }
 
         Table table = new Table(gameId);
-        MailBox mailBox = table.getMailBox();
+        MailBox mailBoxIn = table.getMailBoxIn();
+        MailBox mailBoxOut = table.getMailBoxOut();
 
         table.play();
 
         //Write game info to game core
-        mailBox.produce(new InitialInfoDto(userIds));
+        mailBoxIn.produce(new InitialInfoDto(userIds));
 
         //Distribute initial response to client :
         //game partner and trophy
-        TrophyDisplayDto trophyDisplayDto = mailBox.consume(TrophyDisplayDto.class);
-        List<String> trophyName = new ArrayList<>();
-        for(Card c : trophyDisplayDto.getTrophy()){
-            trophyName.add(c.getName());
-        }
+        TrophyDisplayDto trophyDisplayDto = mailBoxOut.consume(TrophyDisplayDto.class);
+        List<String> trophyName = cardArrayToNameList(trophyDisplayDto.getTrophy());
         for(int i = 0; i < 3; i++ ){
             InitialResDto resDto = new InitialResDto();
             resDto.setTrophy(trophyName);
@@ -66,7 +64,7 @@ public class GameRunner {
             //*********************
             //Make offer
             //*********************
-            MakeOfferDisplayDto makeOfferDisplayDto = mailBox.consume(MakeOfferDisplayDto.class);
+            MakeOfferDisplayDto makeOfferDisplayDto = mailBoxOut.consume(MakeOfferDisplayDto.class);
             Map<String, Card[]> userOffers = makeOfferDisplayDto.getUserOffers();
             //Send all users their card in hand.
             for(String userId : userIds){
@@ -81,7 +79,7 @@ public class GameRunner {
                 GameInstructionDto instruction;
                 do{
                     instruction = coreInterface.consume();
-                }while (instruction.getType().equals(InstructionType.MakeOffer));
+                }while (instruction.getType() != InstructionType.MakeOffer);
                 userIdToChosenCardName.put(instruction.getUserId(), instruction.getCardName());
             }
             //produce choices to mailBox in order of user
@@ -94,7 +92,7 @@ public class GameRunner {
                     choice = 1;
                 }
                 //produce to mail box
-                mailBox.produce(new MakeOfferInstructionDto(choice));
+                mailBoxIn.produce(new MakeOfferInstructionDto(choice));
 
                 //Broadcast result of make offer to
                 InfoBroadcastDto infoBroadcastDto = new InfoBroadcastDto();
@@ -110,7 +108,7 @@ public class GameRunner {
             //*********************
             for(int i = 0; i < 3; i++){
                 //send response
-                TakeCardDisplayDto takeCardDisplayDto = mailBox.consume(TakeCardDisplayDto.class);
+                TakeCardDisplayDto takeCardDisplayDto = mailBoxOut.consume(TakeCardDisplayDto.class);
                 Map<String, Card[]> avaOffer = takeCardDisplayDto.getAvailableOffers();
                 Map<String, List<String>> avaOfferCardName = new HashMap<>();
                 for(String key : avaOffer.keySet()){
@@ -123,7 +121,7 @@ public class GameRunner {
                 GameInstructionDto instructionDto;
                 do{
                     instructionDto = coreInterface.consume();
-                }while (instructionDto.getType() == InstructionType.MakeOffer);
+                }while (instructionDto.getType() != InstructionType.TakeCard);
 
                 //produce in mail box
                 int targetNum = 0;
@@ -133,7 +131,7 @@ public class GameRunner {
                         break;
                     }
                 }
-                mailBox.produce(new TakeCardInstructionDto(targetNum, instructionDto.getCardName()));
+                mailBoxIn.produce(new TakeCardInstructionDto(targetNum, instructionDto.getCardName()));
 
                 //Inform all
                 InfoBroadcastDto infoBroadcastDto = new InfoBroadcastDto();
@@ -145,7 +143,7 @@ public class GameRunner {
             }
 
         }
-        GameResultDto resultDto = mailBox.consume(GameResultDto.class);
+        GameResultDto resultDto = mailBoxOut.consume(GameResultDto.class);
         GameResultResDto gameResultResDto = new GameResultResDto();
         gameResultResDto.setResults(resultDto.getResults());
         webSocketRouter.multicast(userIds, gameResultResDto);

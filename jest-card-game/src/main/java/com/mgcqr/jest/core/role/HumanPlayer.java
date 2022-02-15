@@ -22,7 +22,7 @@ public class HumanPlayer extends Joueur {
             this.getOffer()[1].show();
             System.out.println();
 
-            MakeOfferInstructionDto dto = table.getMailBox().consume(MakeOfferInstructionDto.class);
+            MakeOfferInstructionDto dto = table.getMailBoxIn().consume(MakeOfferInstructionDto.class);
             movement.makeOffer(this,dto.getChoice());
         }
         else if(label == Operation.TakeCard) {
@@ -58,11 +58,11 @@ public class HumanPlayer extends Joueur {
             TakeCardDisplayDto takeCardDisplayDto = new TakeCardDisplayDto();
             takeCardDisplayDto.setAvailableOffers(availableOffers);
             takeCardDisplayDto.setUserId(this.nom);
-            table.getMailBox().produce(takeCardDisplayDto);
+            table.getMailBoxOut().produce(takeCardDisplayDto);
 
 
             System.out.println("To choose a card, input player ID :");
-            TakeCardInstructionDto takeCardInstructionDto = table.getMailBox().consume(TakeCardInstructionDto.class);
+            TakeCardInstructionDto takeCardInstructionDto = table.getMailBoxIn().consume(TakeCardInstructionDto.class);
             Integer playerID = takeCardInstructionDto.getPlayerID();
             System.out.println(playerID);
 

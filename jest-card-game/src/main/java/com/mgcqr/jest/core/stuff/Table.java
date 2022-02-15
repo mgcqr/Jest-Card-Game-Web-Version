@@ -34,7 +34,9 @@ public class Table implements Runnable {
     final public static int nbCartDefault = 17;
 
     @Getter
-    private final MailBox mailBox;
+    private final MailBox mailBoxIn;
+    @Getter
+    private final MailBox mailBoxOut;
     @Getter
     private int nbJoueur = 0;
     private int nbAI;
@@ -47,7 +49,8 @@ public class Table implements Runnable {
 
 
     public Table(String gameId) {
-        this.mailBox = new MailBox();
+        this.mailBoxIn = new MailBox();
+        this.mailBoxOut = new MailBox();
         this.gameId = gameId;
     }
 
@@ -59,12 +62,12 @@ public class Table implements Runnable {
             e.printStackTrace();
         }
 
-        InitialInfoDto dto = mailBox.consume(InitialInfoDto.class);
+        InitialInfoDto dto = mailBoxIn.consume(InitialInfoDto.class);
         this.setParametre(3, 0, dto.getUserIds().toArray(new String[]{}), GameMode.Original);
 
         initialiser();
 
-        mailBox.produce(new TrophyDisplayDto(trophy));
+        mailBoxOut.produce(new TrophyDisplayDto(trophy));
 
         setCurrentStep(Step.start);
         deck.showDeck();
@@ -96,7 +99,7 @@ public class Table implements Runnable {
             userRes.setScore(joueurs[i].getScore());
             results.add(userRes);
         }
-        mailBox.produce(new GameResultDto(results));
+        mailBoxOut.produce(new GameResultDto(results));
         setCurrentStep(Step.finish);
     }
 
@@ -196,7 +199,7 @@ public class Table implements Runnable {
         }
         MakeOfferDisplayDto makeOfferDisplayDto = new MakeOfferDisplayDto();
         makeOfferDisplayDto.setUserOffers(offers);
-        mailBox.produce(makeOfferDisplayDto);
+        mailBoxOut.produce(makeOfferDisplayDto);
 
         for (int i = 0; i < nbJoueur; i++) {
             currentPlayer = i;
