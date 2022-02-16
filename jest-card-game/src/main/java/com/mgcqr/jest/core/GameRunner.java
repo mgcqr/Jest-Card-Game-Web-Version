@@ -33,7 +33,7 @@ public class GameRunner {
         List<String> userIds = users.stream().map(RuntimeUserInfo::getId).collect(Collectors.toList());
         //if registerGame fail then return
         if(! webSocketRouter.registerGame(userIds, coreInterface)) {
-            webSocketRouter.cancelGame(userIds);
+            webSocketRouter.finishGame(userIds);
             waitingHallService.finishGame(gameId, null);
             return;
         }
@@ -149,7 +149,7 @@ public class GameRunner {
         webSocketRouter.multicast(userIds, gameResultResDto);
 
 
-        webSocketRouter.cancelGame(userIds);
+        webSocketRouter.finishGame(userIds);
         waitingHallService.finishGame(gameId, resultDto);
     }
 

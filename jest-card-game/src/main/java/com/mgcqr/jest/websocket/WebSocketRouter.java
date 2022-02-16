@@ -157,15 +157,18 @@ public class WebSocketRouter {
         return false;
     }
 
-    public void cancelGame(List<String> userIds){
-        Set<String> idSet = new HashSet<>(userIds);
-        for(String key : sessionPool.keySet()){
-            if(idSet.contains(key))
-                sessionPool.remove(key);
-        }
-        for(String key : gameCorePool.keySet()){
-            if(idSet.contains(key))
-                gameCorePool.remove(key);
+    public void finishGame(List<String> userIds){
+        for(String id : userIds){
+            Session session = sessionPool.remove(id);
+            try {
+                if (session != null){
+                    session.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            gameCorePool.remove(id);
+
         }
     }
 
