@@ -59,8 +59,8 @@ public class GameRunner {
             webSocketRouter.sendMessage(userIds.get(i), resDto);
         }
 
-        //Five rounds to play
-        for(int round = 0; round < 5; round ++){
+        //Four rounds to play
+        for(int round = 0; round < 4; round ++){
             //*********************
             //Make offer
             //*********************
@@ -132,13 +132,14 @@ public class GameRunner {
                     }
                 }
                 mailBoxIn.produce(new TakeCardInstructionDto(targetNum, instructionDto.getIsFaceUp()));
+                String chosenCardName = mailBoxOut.consume(TakeCardNameDisplayDto.class).getCardName();
 
                 //Inform all
                 InfoBroadcastDto infoBroadcastDto = new InfoBroadcastDto();
                 infoBroadcastDto.setOperation(Operation.TakeCard);
                 infoBroadcastDto.setUserId(takeCardDisplayDto.getUserId());
                 infoBroadcastDto.setTargetUserId(instructionDto.getTargetUserId());
-                infoBroadcastDto.setCardName(instructionDto.getCardName());
+                infoBroadcastDto.setCardName(chosenCardName);
                 webSocketRouter.multicast(userIds, infoBroadcastDto);
             }
 

@@ -12,7 +12,7 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 public class TakeCardResDto extends GameResponseAbsDto{
     //user id to card names
-    @JsonProperty("available_offers ")
+    @JsonProperty("available_offers")
     private Map<String, String> availableOffers;
 
     public TakeCardResDto(Map<String, String> availableOffers){

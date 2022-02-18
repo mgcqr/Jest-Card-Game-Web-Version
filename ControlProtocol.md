@@ -64,9 +64,11 @@ Field "type" will be examined first when a message is received.
   >
   > **When operation ==  "MakeOffer" **
   >
-  > target_user_id has no use. 
+  > `target_user_id`  has no use. 
   >
   > User(user_id) chooses to show his card(card_name) face up
+  >
+  > 
   >
   > **When operation == "TakeCard"**
   >
@@ -81,7 +83,7 @@ Field "type" will be examined first when a message is received.
     * offer_card_names(String[])
   * take card
     * type = "TakeCard"
-    * available_offers (Map<user_id, card_names[]>)
+    * available_offers (Map<user_id, card_names>)
   
 * Result
 

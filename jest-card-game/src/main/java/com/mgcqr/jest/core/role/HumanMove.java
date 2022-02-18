@@ -1,5 +1,6 @@
 package com.mgcqr.jest.core.role;
 
+import com.mgcqr.jest.core.dto.TakeCardNameDisplayDto;
 import com.mgcqr.jest.core.enumeration.CardAim;
 import com.mgcqr.jest.core.stuff.*;
 
@@ -26,6 +27,7 @@ public class HumanMove implements Movement {
 
         Card c = js[playerID].cardOut(isFaceUp);
         j.cardIn(c, CardAim.jest);
+        table.getMailBoxOut().produce(new TakeCardNameDisplayDto(c.getName()));
 
         table.setHasBeenTakenOffer(playerID);
 

@@ -52,7 +52,11 @@ public class WebSocketRouter {
 //            synchronized (this) {
 //                session.getBasicRemote().sendText(message);
 //            }
-            session.getAsyncRemote().sendText(message);
+            try {
+                session.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     //给指定用户发送信息
@@ -102,7 +106,9 @@ public class WebSocketRouter {
             session.close();
             return;
         }
-
+        //TODO only for debug
+        System.out.println(dto);
+        //==========
         if(dto.getType() != null){
             String token = dto.getToken();
             String userId = userService.getId(token);
@@ -114,7 +120,7 @@ public class WebSocketRouter {
 //            System.out.println("receive message from websocket");
 //            System.out.println("user id: " + userId);
             try {
-                sendMessage(session, JsonUtil.toJsonString(new PongDto("receive " + dto.getType())));
+                sendMessage(session, JsonUtil.toJsonString(new PongDto("Websocket server  receive: " + dto.getType())));
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
